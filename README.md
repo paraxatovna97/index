@@ -1,0 +1,2 @@
+# olimpiada
+olimpiada tayyorgarlik kontenti
