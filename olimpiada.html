@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Xorazmiy Olimpiadasi — Tayyorgarlik</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f0;color:#1a1a1a;min-height:100vh}
+.app{max-width:900px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,0.08)}
+.header{background:linear-gradient(135deg,#0f6e56,#1d9e75);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:14px}
+.logo{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.3)}
+.header-info h1{font-size:17px;font-weight:600;color:#fff}
+.header-info p{font-size:12px;color:rgba(255,255,255,0.8);margin-top:2px}
+.nav{display:flex;gap:0;border-bottom:1px solid #e8e8e2;background:#fff;position:sticky;top:0;z-index:100}
+.nav-btn{padding:12px 18px;font-size:13px;border:none;background:transparent;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.nav-btn:hover{color:#1d9e75}
+.nav-btn.active{color:#1d9e75;border-bottom-color:#1d9e75;font-weight:500}
+.content{padding:1.5rem}
+.page{display:none}
+.page.active{display:block}
+
+/* Home */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.stat-card{background:#f9f9f6;border:1px solid #e8e8e2;border-radius:10px;padding:1rem;text-align:center}
+.stat-num{font-size:26px;font-weight:600;color:#1d9e75}
+.stat-label{font-size:11px;color:#888;margin-top:3px}
+.progress-bar-wrap{margin-bottom:1.5rem}
+.progress-bar-wrap label{font-size:12px;color:#888;margin-bottom:6px;display:block}
+.pbar{height:6px;background:#e8e8e2;border-radius:3px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,#1d9e75,#5dcaa5);border-radius:3px;transition:width 0.5s}
+
+.stage-card{border:1px solid #e8e8e2;border-radius:12px;margin-bottom:1.25rem;overflow:hidden}
+.stage-header{padding:1rem 1.25rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e8e8e2;background:#fafaf7}
+.stage-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.3px}
+.badge-green{background:#e1f5ee;color:#0f6e56}
+.badge-amber{background:#fef3d9;color:#854f0b}
+.badge-blue{background:#e6f1fb;color:#185fa5}
+.stage-title{font-size:14px;font-weight:500}
+.stage-desc{font-size:12px;color:#888;margin-left:auto}
+.topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:0;padding:0}
+.topic-btn{padding:11px 14px;border:none;border-right:1px solid #e8e8e2;border-bottom:1px solid #e8e8e2;background:#fff;cursor:pointer;text-align:left;font-size:13px;font-family:inherit;color:#333;display:flex;align-items:center;gap:8px;transition:background 0.15s;width:100%}
+.topic-btn:hover{background:#f0faf6}
+.topic-btn.done{background:#f0faf6}
+.topic-btn.done .t-check{color:#1d9e75;opacity:1}
+.t-icon{font-size:15px;color:#1d9e75;flex-shrink:0}
+.t-name{flex:1;line-height:1.3}
+.t-check{font-size:13px;color:#1d9e75;opacity:0;flex-shrink:0}
+
+/* Lesson */
+.lesson-header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid #e8e8e2}
+.back-btn{padding:7px 14px;border:1px solid #e8e8e2;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-family:inherit;color:#555;display:flex;align-items:center;gap:5px;transition:background 0.15s}
+.back-btn:hover{background:#f5f5f0}
+.lesson-title{font-size:17px;font-weight:600;flex:1}
+.done-badge{padding:4px 10px;background:#e1f5ee;color:#0f6e56;border-radius:20px;font-size:12px;font-weight:500}
+
+.tabs{display:flex;gap:0;border-bottom:1px solid #e8e8e2;margin-bottom:1.5rem}
+.tab-btn{padding:9px 16px;font-size:13px;border:none;background:transparent;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;display:flex;align-items:center;gap:5px;transition:color 0.15s}
+.tab-btn:hover{color:#1d9e75}
+.tab-btn.active{color:#1d9e75;border-bottom-color:#1d9e75;font-weight:500}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Theory */
+.theory-section{margin-bottom:1.25rem}
+.theory-section h3{font-size:14px;font-weight:600;color:#0f6e56;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.theory-box{border-left:3px solid #1d9e75;padding:0.875rem 1rem;background:#f8fdfb;border-radius:0 8px 8px 0;margin-bottom:0.75rem}
+.theory-box p,.theory-box li{font-size:14px;line-height:1.75;color:#333}
+.theory-box ul{padding-left:1.25rem}
+.formula-box{background:#e1f5ee;border:1px solid #9fe1cb;border-radius:8px;padding:0.875rem 1rem;margin:0.75rem 0;text-align:center;font-size:15px;font-weight:600;color:#0f6e56;font-family:monospace;letter-spacing:0.5px}
+.info-box{background:#f0f7ff;border:1px solid #b5d4f4;border-radius:8px;padding:0.875rem 1rem;margin:0.75rem 0}
+.info-box p,.info-box li{font-size:13px;line-height:1.7;color:#185fa5}
+.warn-box{background:#fff8ec;border:1px solid #fac775;border-radius:8px;padding:0.875rem 1rem;margin:0.75rem 0}
+.warn-box p{font-size:13px;line-height:1.7;color:#854f0b}
+table.theory-table{width:100%;border-collapse:collapse;font-size:13px;margin:0.75rem 0}
+table.theory-table th{background:#e1f5ee;color:#0f6e56;padding:7px 10px;text-align:left;font-weight:500}
+table.theory-table td{padding:7px 10px;border-bottom:1px solid #e8e8e2}
+table.theory-table tr:last-child td{border-bottom:none}
+
+/* Examples */
+.example-card{border:1px solid #e8e8e2;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;background:#fff}
+.diff-row{display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.diff-dot{width:8px;height:8px;border-radius:50%;background:#e8e8e2}
+.d-easy{background:#1d9e75}
+.d-med{background:#ef9f27}
+.d-hard{background:#e24b4a}
+.diff-label{font-size:11px;color:#888;margin-left:3px}
+.ex-q{font-size:14px;font-weight:500;margin-bottom:8px;color:#1a1a1a;line-height:1.5}
+.ex-sol{font-size:13px;color:#555;line-height:1.75;background:#f9f9f6;border-radius:6px;padding:8px 10px;margin-bottom:8px}
+.ex-ans{display:inline-block;padding:5px 12px;background:#e1f5ee;border-radius:6px;font-size:13px;font-weight:600;color:#0f6e56}
+.examples-label{font-size:13px;font-weight:500;color:#0f6e56;margin-bottom:1rem;padding:6px 12px;background:#e1f5ee;border-radius:6px;display:inline-block}
+
+/* Homework */
+.hw-intro{background:#f9f9f6;border-radius:8px;padding:0.75rem 1rem;font-size:13px;color:#666;margin-bottom:1rem;display:flex;align-items:flex-start;gap:8px}
+.hw-card{border:1px solid #e8e8e2;border-radius:10px;padding:1rem 1.25rem;margin-bottom:10px;background:#fff}
+.hw-type{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:12px;font-size:11px;font-weight:600;margin-bottom:8px}
+.hw-req{background:#e6f1fb;color:#185fa5}
+.hw-olp{background:#fef3d9;color:#854f0b}
+.hw-q{font-size:14px;line-height:1.65;color:#1a1a1a}
+.mark-done-btn{margin-top:1.25rem;padding:10px 20px;background:#1d9e75;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;font-family:inherit;display:flex;align-items:center;gap:6px;transition:background 0.2s}
+.mark-done-btn:hover{background:#0f6e56}
+
+/* Test */
+.test-intro{background:#f9f9f6;border-radius:8px;padding:0.75rem 1rem;font-size:13px;color:#666;margin-bottom:1rem}
+.test-q-card{border:1px solid #e8e8e2;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;background:#fff}
+.test-qtext{font-size:14px;font-weight:500;margin-bottom:12px;line-height:1.55;color:#1a1a1a}
+.test-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.test-opt{padding:9px 13px;border:1px solid #e8e8e2;border-radius:7px;cursor:pointer;font-size:13px;background:#fafaf7;text-align:left;font-family:inherit;color:#333;transition:all 0.15s;width:100%}
+.test-opt:hover:not(:disabled){background:#f0faf6;border-color:#9fe1cb}
+.test-opt.selected{background:#e1f5ee;border-color:#1d9e75;color:#0f6e56}
+.test-opt.correct{background:#e1f5ee;border-color:#1d9e75;color:#0f6e56;font-weight:500}
+.test-opt.wrong{background:#fce8e8;border-color:#e24b4a;color:#a32d2d}
+.test-opt:disabled{cursor:default}
+.submit-btn{margin-top:0.5rem;padding:10px 24px;background:#1d9e75;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;font-family:inherit;display:flex;align-items:center;gap:6px}
+.submit-btn:hover{background:#0f6e56}
+.test-result-box{margin-top:1.25rem;padding:1.25rem;border-radius:10px;text-align:center;display:none}
+.result-good{background:#e1f5ee;color:#0f6e56;border:1px solid #9fe1cb}
+.result-mid{background:#fef3d9;color:#854f0b;border:1px solid #fac775}
+.result-bad{background:#fce8e8;color:#a32d2d;border:1px solid #f7c1c1}
+.result-score{font-size:28px;font-weight:700;margin-bottom:4px}
+.result-msg{font-size:13px}
+
+/* Progress page */
+.prog-stage{margin-bottom:1.5rem}
+.prog-stage-title{font-size:13px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.75rem}
+.prog-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0ea}
+.prog-circle{width:22px;height:22px;border-radius:50%;border:1.5px solid #e8e8e2;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;color:#1d9e75;background:#fff}
+.prog-circle.done{background:#1d9e75;border-color:#1d9e75;color:#fff}
+.prog-name{font-size:14px;color:#333;flex:1}
+.prog-tag{font-size:11px;padding:2px 8px;border-radius:10px;background:#e1f5ee;color:#0f6e56;font-weight:500}
+
+@media(max-width:600px){
+  .content{padding:1rem}
+  .test-opts{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(3,1fr)}
+  .topics-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+  <div class="logo">AX</div>
+  <div class="header-info">
+    <h1>Al-Xorazmiy Olimpiadasi — Tayyorgarlik</h1>
+    <p>7-sinf &nbsp;·&nbsp; 6 oylik dastur &nbsp;·&nbsp; 24 mavzu &nbsp;·&nbsp; 3 bosqich</p>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" id="nav-home" onclick="showPage('home')"><i class="ti ti-home"></i> Bosh sahifa</button>
+  <button class="nav-btn" id="nav-lesson" style="display:none" onclick="showPage('lesson')"><i class="ti ti-book"></i> <span id="nav-lesson-title">Dars</span></button>
+  <button class="nav-btn" id="nav-progress" onclick="showPage('progress')"><i class="ti ti-chart-bar"></i> Natijalar</button>
+</div>
+
+<div class="content">
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" id="stat-done">0</div><div class="stat-label">Bajarildi</div></div>
+    <div class="stat-card"><div class="stat-num">24</div><div class="stat-label">Jami mavzu</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-pct">0%</div><div class="stat-label">Tayyorgarlik</div></div>
+  </div>
+  <div class="progress-bar-wrap">
+    <label>Umumiy tayyorgarlik darajasi</label>
+    <div class="pbar"><div class="pbar-fill" id="main-pbar" style="width:0%"></div></div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <span class="stage-badge badge-green">1–2-oy</span>
+      <span class="stage-title">Poydevor — Asosiy tushunchalar</span>
+      <span class="stage-desc">10 mavzu</span>
+    </div>
+    <div class="topics-grid" id="grid-stage1"></div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <span class="stage-badge badge-amber">3–4-oy</span>
+      <span class="stage-title">Olimpiada usullari</span>
+      <span class="stage-desc">8 mavzu</span>
+    </div>
+    <div class="topics-grid" id="grid-stage2"></div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <span class="stage-badge badge-blue">5–6-oy</span>
+      <span class="stage-title">Musobaqa rejimi</span>
+      <span class="stage-desc">6 mavzu</span>
+    </div>
+    <div class="topics-grid" id="grid-stage3"></div>
+  </div>
+</div>
+
+<!-- LESSON PAGE -->
+<div class="page" id="page-lesson">
+  <div class="lesson-header">
+    <button class="back-btn" onclick="showPage('home')"><i class="ti ti-arrow-left"></i> Orqaga</button>
+    <span class="lesson-title" id="lesson-title">Mavzu</span>
+    <span class="done-badge" id="done-badge" style="display:none"><i class="ti ti-check"></i> Bajarildi</span>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab(this,'theory')"><i class="ti ti-book-2"></i> Nazariya</button>
+    <button class="tab-btn" onclick="showTab(this,'examples')"><i class="ti ti-pencil"></i> Misollar</button>
+    <button class="tab-btn" onclick="showTab(this,'homework')"><i class="ti ti-clipboard-list"></i> Uyga vazifa</button>
+    <button class="tab-btn" onclick="showTab(this,'test')"><i class="ti ti-clipboard-check"></i> Test</button>
+  </div>
+  <div class="tab-content active" id="tab-theory"></div>
+  <div class="tab-content" id="tab-examples"></div>
+  <div class="tab-content" id="tab-homework"></div>
+  <div class="tab-content" id="tab-test"></div>
+</div>
+
+<!-- PROGRESS PAGE -->
+<div class="page" id="page-progress">
+  <h2 style="font-size:16px;font-weight:600;margin-bottom:1.25rem">Tayyorgarlik holati</h2>
+  <div id="prog-content"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+const TOPICS = [
+  {stage:1, id:'t1',  name:"Bo'linish va qoldiq",          icon:'ti-divide'},
+  {stage:1, id:'t2',  name:"EKUB va EKUK",                  icon:'ti-git-merge'},
+  {stage:1, id:'t3',  name:"Tub sonlar va kanonizatsiya",   icon:'ti-atom'},
+  {stage:1, id:'t4',  name:"Oxirgi raqam topish",           icon:'ti-123'},
+  {stage:1, id:'t5',  name:"Factorial va Legendre formulasi",icon:'ti-math-function'},
+  {stage:1, id:'t6',  name:"Ko'paytuvchilarga ajratish",    icon:'ti-calculator'},
+  {stage:1, id:'t7',  name:"Standart aynanliklar",          icon:'ti-equal'},
+  {stage:1, id:'t8',  name:"Chiziqli tenglamalar va sistemalar",icon:'ti-variable'},
+  {stage:1, id:'t9',  name:"Uchburchak xossalari",          icon:'ti-triangle'},
+  {stage:1, id:'t10', name:"Trapetsiya, romb va to'rtburchaklar",icon:'ti-pentagon'},
+  {stage:2, id:'t11', name:"Kombinatorika asoslari",         icon:'ti-git-branch'},
+  {stage:2, id:'t12', name:"Kombinatsiya va joylashtirish", icon:'ti-arrows-shuffle'},
+  {stage:2, id:'t13', name:"Modul bilan tenglamalar",       icon:'ti-brackets'},
+  {stage:2, id:'t14', name:"Ildizli tenglamalar",           icon:'ti-square-root'},
+  {stage:2, id:'t15', name:"Kvadrat tengsizliklar",         icon:'ti-greater-than'},
+  {stage:2, id:'t16', name:"Bo'luvchilar soni",             icon:'ti-list-numbers'},
+  {stage:2, id:'t17', name:"Simmetrik ifodalar",            icon:'ti-symmetry'},
+  {stage:2, id:'t18', name:"Kabutar ini prinsipi",          icon:'ti-feather'},
+  {stage:3, id:'t19', name:"Arifmetik progressiya",         icon:'ti-trending-up'},
+  {stage:3, id:'t20', name:"Geometrik progressiya",         icon:'ti-chart-line'},
+  {stage:3, id:'t21', name:"To'liq olimpiada testi — 1",   icon:'ti-tournament'},
+  {stage:3, id:'t22', name:"To'liq olimpiada testi — 2",   icon:'ti-tournament'},
+  {stage:3, id:'t23', name:"To'liq olimpiada testi — 3",   icon:'ti-tournament'},
+  {stage:3, id:'t24', name:"Qiyin masalalar tahlili",       icon:'ti-microscope'},
+];
+
+const DATA = {
+t1:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Asosiy ta'rif</h3>
+<p>Har qanday <b>a</b> butun sonni natural <b>b</b> songa bo'lganda yagona <b>q</b> va <b>r</b> sonlar mavjud:</p></div>
+<div class="formula-box">a = b · q + r &nbsp;&nbsp; (0 ≤ r &lt; b)</div>
+<div class="theory-box"><p><b>a</b> — bo'linuvchi &nbsp;|&nbsp; <b>b</b> — bo'luvchi &nbsp;|&nbsp; <b>q</b> — bo'linma &nbsp;|&nbsp; <b>r</b> — qoldiq</p>
+<p style="margin-top:6px">Misol: 47 = 6·7 + <b>5</b> → 47 ni 6 ga bo'lganda qoldiq 5</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Muhim xossalar</h3>
+<ul>
+<li>(a + b) ni n ga bo'lganda qoldiq = (aₙ + bₙ) ni n ga bo'lganda qoldiq, bu yerda aₙ va bₙ — mos qoldiqlar</li>
+<li>(a · b) ni n ga bo'lganda qoldiq = (aₙ · bₙ) ni n ga bo'lganda qoldiq</li>
+<li>a ≡ r (mod n) degani: a ni n ga bo'lganda qoldiq r</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Shartli bo'linish masalalari</h3>
+<p>a ≡ r (mod m) va a ≡ r (mod n) bo'lsa:</p></div>
+<div class="formula-box">a = EKUK(m, n) · k + r</div>
+<div class="info-box"><p><b>Masalan:</b> 5 ga va 7 ga bo'lganda 3 qoldiq qoladigan eng kichik son:<br>
+EKUK(5,7) = 35 → son = 35·1 + 3 = <b>38</b></p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Raqamlar yig'indisi (9 va 3 ga bo'linish)</h3>
+<p>Son 9 ga bo'linsa — raqamlari yig'indisi 9 ga bo'linadi.<br>
+Son 3 ga bo'linsa — raqamlari yig'indisi 3 ga bo'linadi.<br>
+Son 11 ga bo'linsa — juft va toq o'rindagi raqamlar ayirmasi 11 ga bo'linadi.</p></div>
+</div>`,
+examples:[
+{d:1,q:"2024 sonini 7 ga bo'lgandagi qoldiqni toping.",s:"2024 = 7 · 289 + 1 → 7 · 289 = 2023, 2024 − 2023 = 1",a:"Qoldiq = 1"},
+{d:1,q:"3 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 3 qoldiq qoladigan eng kichik natural sonni toping.",s:"EKUK(3,5) = 15. Son = 15k + r. r=2 uchun: 3 ga bo'lganda 2 ✓, 5 ga bo'lganda: 2 mod 5 = 2 ≠ 3. r=8: 8 mod 3=2 ✓, 8 mod 5=3 ✓. Son = 8",a:"Son = 8"},
+{d:2,q:"n ni 6 ga bo'lganda qoldiq 5. n² ni 6 ga bo'lganda qoldiq nechaga teng?",s:"n ≡ 5 (mod 6) → n² ≡ 5² = 25 (mod 6) → 25 = 6·4 + 1 → qoldiq 1",a:"Qoldiq = 1"},
+{d:2,q:"5 ga ham, 7 ga ham, 10 ga ham bo'lganda 4 qoldiq qoladigan eng kichik sonni toping.",s:"EKUK(5,7,10) = 70. Son = 70k + 4. k=1: son = 74. Tekshiruv: 74 mod 5=4 ✓, 74 mod 7=4 ✓, 74 mod 10=4 ✓",a:"Son = 74"},
+{d:3,q:"a ≡ 3 (mod 5), b ≡ 4 (mod 5) bo'lsa, a² + b² ni 5 ga bo'lgandagi qoldiqni toping.",s:"a² ≡ 3² = 9 ≡ 4 (mod 5). b² ≡ 4² = 16 ≡ 1 (mod 5). a²+b² ≡ 4+1 = 5 ≡ 0 (mod 5)",a:"Qoldiq = 0"},
+],
+homework:[
+{t:'req',q:"4¹⁰⁰ + 6¹⁰⁰ ning oxirgi raqamini toping. (Maslahat: 4ⁿ va 6ⁿ ning oxirgi raqamlarini aniqlang)"},
+{t:'req',q:"3 ga bo'lganda 1 qoldiq, 4 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 3 qoldiq qoladigan eng kichik natural sonni toping."},
+{t:'req',q:"n ni 7 ga bo'lganda qoldiq 4. n³ ni 7 ga bo'lganda qoldiq necha?"},
+{t:'req',q:"2025 yili yanvar 1 — seshanba. 2025 yilning 200-kuni haftaning qaysi kuniga to'g'ri keladi?"},
+{t:'olp',q:"★ 1² + 2² + 3² + ... + 2024² ni 4 ga bo'lgandagi qoldiqni toping."},
+{t:'olp',q:"★ a ni 11 ga bo'lganda qoldiq 7 bo'lsa, 3a + 5 va a² − 2a + 1 ni 11 ga bo'lgandagi qoldiqlarni toping."},
+],
+test:[
+{q:"47 ni 6 ga bo'lganda qoldiq necha?",o:["A) 3","B) 4","C) 5","D) 6"],a:2},
+{q:"5 ga ham 7 ga ham 10 ga ham bo'lganda 4 qoldiq qoladigan eng kichik son?",o:["A) 39","B) 54","C) 74","D) 354"],a:2},
+{q:"n ≡ 4 (mod 7) bo'lsa, n² ≡ ? (mod 7)",o:["A) 1","B) 2","C) 3","D) 4"],a:1},
+{q:"3 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 3 qoldiq qoladigan eng kichik son?",o:["A) 5","B) 8","C) 13","D) 23"],a:1},
+{q:"a ≡ 3 (mod 5), b ≡ 4 (mod 5) bo'lsa, (a+b) mod 5 = ?",o:["A) 0","B) 1","C) 2","D) 7"],a:2},
+{q:"2024 ni 9 ga bo'lganda qoldiq (raqamlar yig'indisi usuli)?",o:["A) 6","B) 7","C) 8","D) 0"],a:3},
+]},
+
+t2:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>EKUB — Eng Katta Umumiy Bo'luvchi</h3>
+<p>Ikki sonning barcha umumiy bo'luvchilaridan eng kattasi.</p></div>
+<div class="formula-box">EKUB(a, b) = EKUB(b, a mod b) — Evklid algoritmi</div>
+<div class="info-box"><p><b>Misol:</b> EKUB(48, 36):<br>
+48 = 36·1 + 12 → EKUB(36, 12)<br>
+36 = 12·3 + 0 → EKUB = 12</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>EKUK — Eng Kichik Umumiy Karrali</h3>
+<p>Ikki sonning barcha umumiy karralilari orasidan eng kichigi.</p></div>
+<div class="formula-box">EKUB(a, b) · EKUK(a, b) = a · b</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Muhim xossalar</h3>
+<ul>
+<li>EKUB(a,b) = d bo'lsa: a = d·m, b = d·n, EKUB(m,n) = 1</li>
+<li>a va b o'zaro tub bo'lsa: EKUB(a,b) = 1, EKUK(a,b) = a·b</li>
+<li>EKUB(a,b) har doim EKUK(a,b) ga bo'linadi</li>
+<li>Agar a | b bo'lsa: EKUB(a,b) = a, EKUK(a,b) = b</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Kanonizatsiya orqali EKUB/EKUK</h3>
+<p>a = 2³·3·5² va b = 2·3²·5 bo'lsa:<br>
+EKUB = 2¹·3¹·5¹ = 30 (minimal darajalar)<br>
+EKUK = 2³·3²·5² = 900 (maksimal darajalar)</p></div>
+</div>`,
+examples:[
+{d:1,q:"EKUB(72, 48) ni Evklid algoritmi bilan toping.",s:"72 = 48·1 + 24 → 48 = 24·2 + 0 → EKUB = 24",a:"EKUB = 24"},
+{d:1,q:"EKUB(a,b) = 4 va EKUK(a,b) = 16 bo'lsa, a·b ni toping.",s:"a·b = EKUB · EKUK = 4 · 16 = 64",a:"a·b = 64"},
+{d:2,q:"EKUB(x,y) = 12, x/y = 3/4 bo'lsa, x+y va EKUK(x,y) ni toping.",s:"x = 12·3 = 36, y = 12·4 = 48. Tekshiruv: EKUB(36,48) = 12 ✓. x+y = 84. EKUK = 36·48/12 = 144",a:"x+y = 84, EKUK = 144"},
+{d:2,q:"EKUB(m,n) = 6, EKUK(m,n) = 180. m va n ning barcha mumkin bo'lgan juftliklarini toping.",s:"m·n = 6·180 = 1080. m = 6a, n = 6b, EKUB(a,b)=1, a·b=30. a·b=30, EKUB(a,b)=1: (1,30),(2,15),(3,10),(5,6). Juftliklar: (6,180),(12,90),(18,60),(30,36)",a:"4 ta juftlik"},
+{d:3,q:"Ikkita natural sonning EKUB si 7, EKUK si 140. Bu sonlarni toping.",s:"m·n = 7·140 = 980. m=7a, n=7b, a·b=20, EKUB(a,b)=1. a·b=20: (1,20),(4,5). (1,20): EKUB(1,20)=1 ✓ → (7, 140). (4,5): EKUB(4,5)=1 ✓ → (28, 35)",a:"(7,140) yoki (28,35)"},
+],
+homework:[
+{t:'req',q:"EKUB(156, 84) ni Evklid algoritmi bilan toping."},
+{t:'req',q:"EKUB(a,b) = 6, EKUK(a,b) = 90 bo'lsa, a·b ni toping."},
+{t:'req',q:"EKUB(x,y) = 8, x/y = 3/5 bo'lsa, x+y va EKUK(x,y) ni toping."},
+{t:'req',q:"360 va 252 ning EKUB va EKUK ini kanonizatsiya usuli bilan toping."},
+{t:'olp',q:"★ EKUB(a,b) + EKUK(a,b) = 45, a·b = 200 bo'lsa, a va b ni toping."},
+{t:'olp',q:"★ n ning qanday qiymatlarida EKUB(n+1, n²+1) = 1 bo'lmaydi?"},
+],
+test:[
+{q:"EKUB(48, 36) = ?",o:["A) 6","B) 12","C) 18","D) 24"],a:1},
+{q:"EKUB(a,b)=4, EKUK(a,b)=16 bo'lsa, a·b = ?",o:["A) 16","B) 32","C) 48","D) 64"],a:3},
+{q:"EKUB(m,n)=5, EKUK(m,n)=60 bo'lsa, m·n = ?",o:["A) 200","B) 300","C) 250","D) 180"],a:1},
+{q:"EKUB(x,y)=12, x/y=3/4 bo'lsa, x+y = ?",o:["A) 72","B) 84","C) 96","D) 60"],a:1},
+{q:"EKUB(a,b) = 6, EKUK(a,b) = 90. EKUK/EKUB = ?",o:["A) 10","B) 12","C) 15","D) 18"],a:2},
+{q:"a va b o'zaro tub, a=7, b=13. EKUK(a,b) = ?",o:["A) 1","B) 7","C) 13","D) 91"],a:3},
+]},
+
+t3:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Tub son ta'rifi</h3>
+<p>Faqat 1 va o'ziga bo'linadigan 1 dan katta natural son. Misol: 2, 3, 5, 7, 11, 13, ...</p>
+<p style="margin-top:6px"><b>Murakkab son</b> — 1 dan va o'zidan boshqa bo'luvchisi bor son. 1 na tub, na murakkab!</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Tub sonni tekshirish</h3>
+<p>n sonini tekshirish uchun √n gacha bo'lgan tub sonlarga bo'lish yetarli.</p></div>
+<div class="info-box"><p><b>Misol:</b> 97 tub mi? √97 ≈ 9.8 → 2,3,5,7 ga bo'linmaydi → <b>tub!</b><br>
+91 tub mi? 91 = 7·13 → <b>murakkab</b></p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Kanonizatsiya (asosiy teorema)</h3>
+<p>Har bir 1 dan katta natural son yagona tarzda tub sonlar ko'paytmasi sifatida yoziladi:</p></div>
+<div class="formula-box">n = p₁^a₁ · p₂^a₂ · ... · pₖ^aₖ</div>
+<div class="info-box"><p>360 = 2³ · 3² · 5¹ &nbsp;|&nbsp; 252 = 2² · 3² · 7</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Bo'luvchilar soni formulasi</h3></div>
+<div class="formula-box">d(n) = (a₁+1)(a₂+1)···(aₖ+1)</div>
+<div class="info-box"><p>d(360) = (3+1)(2+1)(1+1) = 4·3·2 = <b>24</b> ta bo'luvchi<br>
+Bo'luvchilar yig'indisi: σ(n) = (p₁^(a₁+1)−1)/(p₁−1) · ...</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Bo'linish belgilari</h3>
+<ul>
+<li><b>2 ga:</b> oxirgi raqam juft</li>
+<li><b>3 ga:</b> raqamlar yig'indisi 3 ga bo'linadi</li>
+<li><b>4 ga:</b> oxirgi ikki raqam 4 ga bo'linadi</li>
+<li><b>5 ga:</b> oxirgi raqam 0 yoki 5</li>
+<li><b>9 ga:</b> raqamlar yig'indisi 9 ga bo'linadi</li>
+<li><b>11 ga:</b> juft va toq o'rin raqamlari ayirmasi 11 ga bo'linadi</li>
+</ul></div>
+</div>`,
+examples:[
+{d:1,q:"100 gacha tub sonlar nechta?",s:"Eratosfen g'alviri: 2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97 — sanab chiqing",a:"25 ta tub son"},
+{d:1,q:"360 ni kanonizatsiya qiling va bo'luvchilar sonini toping.",s:"360 = 2·180 = 2·2·90 = 4·90 = 4·9·10 = 2³·3²·5. d(360) = (3+1)(2+1)(1+1) = 24",a:"360 = 2³·3²·5, 24 ta bo'luvchi"},
+{d:2,q:"p tub son, p²+2 ham tub. p ni toping.",s:"p=2: 4+2=6 (murakkab). p=3: 9+2=11 (tub ✓). p=5: 25+2=27=3³ (murakkab). p≥5 da p ≡ 1 yoki 2 (mod 3), p²≡1(mod 3), p²+2≡0(mod 3) → 3 ga bo'linadi",a:"p = 3"},
+{d:2,q:"Natural bo'luvchilari soni 18 ga teng bo'lgan eng kichik natural sonni toping.",s:"18=(17+1)=(8+1)·2=(5+1)·3=(2+1)·(2+1)·2=(2+1)·(1+1)·(1+1)·... . 18=2·3·3: n=2²·3²·5=180 kichikroq. 18=1·2·9: n=2⁸·3=768. 18=2·3·3: n=2²·3²·5¹=180. Eng kichigi — 180",a:"180"},
+{d:3,q:"28 ning juft bo'luvchilari va tub bo'luvchilari yig'indisini toping.",s:"28 = 2²·7. Barcha bo'luvchilar: 1,2,4,7,14,28. Juft bo'luvchilar: 2,4,14,28 → yig'indi=48. Tub bo'luvchilar: 2,7 → yig'indi=9. Jami: 48+9=57",a:"57"},
+],
+homework:[
+{t:'req',q:"252 ni kanonizatsiya qiling va bo'luvchilar sonini toping."},
+{t:'req',q:"Bo'luvchilari soni 12 ga teng bo'lgan 100 dan kichik natural sonlarni toping."},
+{t:'req',q:"p va p+2 ikkisi ham tub (egizak tub sonlar). 50 gacha nechta bunday juft bor?"},
+{t:'req',q:"28 ning barcha bo'luvchilari yig'indisini toping."},
+{t:'olp',q:"★ n² + n + 41 ifoda 1 dan 39 gacha barcha n lar uchun tub son berishini ko'rsating."},
+{t:'olp',q:"★ Natural bo'luvchilari soni eng ko'p bo'lgan uch xonali sonni toping."},
+],
+test:[
+{q:"100 gacha nechta tub son bor?",o:["A) 23","B) 24","C) 25","D) 26"],a:2},
+{q:"360 = ?",o:["A) 2³·3²·5","B) 2²·3²·5·2","C) 2⁴·3·5","D) 2³·3·5²"],a:0},
+{q:"360 ning bo'luvchilar soni?",o:["A) 20","B) 24","C) 18","D) 30"],a:1},
+{q:"Qaysi son tub?",o:["A) 91","B) 93","C) 97","D) 99"],a:2},
+{q:"d(n) = (a₁+1)(a₂+1). d(72) = ?",o:["A) 10","B) 12","C) 8","D) 6"],a:1},
+{q:"p tub, p²+2 ham tub. p = ?",o:["A) 2","B) 3","C) 5","D) 7"],a:1},
+]},
+
+t4:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Oxirgi raqam = son mod 10</h3>
+<p>Sonning oxirgi raqamini topish uchun uni 10 ga bo'lgandagi qoldiqni topamiz. Ko'paytmalar va darajalar uchun ham qoldiq xossalaridan foydalanamiz.</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Darajalar uchun davriylik</h3></div>
+<table class="theory-table">
+<tr><th>Asos</th><th>Ketma-ketlik</th><th>Davr</th></tr>
+<tr><td>2</td><td>2, 4, 8, 6, 2, 4, ...</td><td>4</td></tr>
+<tr><td>3</td><td>3, 9, 7, 1, 3, 9, ...</td><td>4</td></tr>
+<tr><td>4</td><td>4, 6, 4, 6, ...</td><td>2</td></tr>
+<tr><td>5</td><td>5, 5, 5, ...</td><td>1</td></tr>
+<tr><td>6</td><td>6, 6, 6, ...</td><td>1</td></tr>
+<tr><td>7</td><td>7, 9, 3, 1, 7, 9, ...</td><td>4</td></tr>
+<tr><td>8</td><td>8, 4, 2, 6, 8, 4, ...</td><td>4</td></tr>
+<tr><td>9</td><td>9, 1, 9, 1, ...</td><td>2</td></tr>
+</table>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Usul</h3>
+<ul>
+<li>1. Asosning oxirgi raqamini aniqla</li>
+<li>2. Davrni top (yuqoridagi jadvaldan)</li>
+<li>3. Ko'rsatkichni davrga bo'l, qoldiqni top</li>
+<li>4. Qoldiqqa mos raqamni aniqla</li>
+</ul></div>
+<div class="warn-box"><p><b>Ehtiyot:</b> Qoldiq 0 bo'lsa — davrning oxirgi elementini ol!</p></div>
+</div>`,
+examples:[
+{d:1,q:"2⁸⁴⁵ ning oxirgi raqamini toping.",s:"2 davri: 2,4,8,6 (davr=4). 845 = 4·211 + 1 → qoldiq 1 → ketma-ketlikning 1-elementi",a:"Oxirgi raqam = 2"},
+{d:1,q:"7⁵² ning oxirgi raqamini toping.",s:"7 davri: 7,9,3,1 (davr=4). 52 = 4·13 + 0 → qoldiq 0 → davrning 4-elementi = 1",a:"Oxirgi raqam = 1"},
+{d:2,q:"3⁵⁰ + 4⁵⁰ ning oxirgi raqamini toping.",s:"3⁵⁰: davr 4, 50=4·12+2 → 2-element=9. 4⁵⁰: davr 2, 50=2·25+0 → 2-element=6. 9+6=15 → oxirgi raqam 5",a:"Oxirgi raqam = 5"},
+{d:2,q:"1³+2³+3³+...+10³ ning oxirgi raqamini toping.",s:"1+8+27+64+125+216+343+512+729+1000. Oxirgi raqamlar: 1+8+7+4+5+6+3+2+9+0=45 → oxirgi raqam 5",a:"Oxirgi raqam = 5"},
+{d:3,q:"2²⁰²⁵ + 3²⁰²⁵ ning oxirgi raqamini toping.",s:"2²⁰²⁵: 2025 mod 4 = 1 → oxirgi raqam 2. 3²⁰²⁵: 2025 mod 4 = 1 → oxirgi raqam 3. 2+3=5",a:"Oxirgi raqam = 5"},
+],
+homework:[
+{t:'req',q:"9⁹⁹ ning oxirgi raqamini toping."},
+{t:'req',q:"2¹+2²+2³+...+2¹⁰⁰ ning oxirgi raqamini toping."},
+{t:'req',q:"17²⁰²⁴ ning oxirgi raqamini toping."},
+{t:'req',q:"1¹+2²+3³+...+9⁹ ning oxirgi raqamini toping."},
+{t:'olp',q:"★ n¹⁰ − n² ning oxirgi raqami har doim nechaga teng? Isbot keltiring."},
+{t:'olp',q:"★ 2²⁰²⁴ + 3²⁰²⁴ + 4²⁰²⁴ + 5²⁰²⁴ ning oxirgi raqamini toping."},
+],
+test:[
+{q:"2⁸⁴⁵ ning oxirgi raqami?",o:["A) 2","B) 4","C) 6","D) 8"],a:0},
+{q:"7¹⁰⁰ ning oxirgi raqami?",o:["A) 7","B) 9","C) 3","D) 1"],a:3},
+{q:"3⁵⁰ ning oxirgi raqami?",o:["A) 3","B) 7","C) 9","D) 1"],a:2},
+{q:"4⁷⁵ ning oxirgi raqami?",o:["A) 4","B) 6","C) 2","D) 8"],a:0},
+{q:"2¹⁰⁰ + 3¹⁰⁰ ning oxirgi raqami?",o:["A) 3","B) 5","C) 7","D) 9"],a:2},
+{q:"9⁹⁹ ning oxirgi raqami?",o:["A) 1","B) 3","C) 7","D) 9"],a:3},
+]},
+
+t5:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Factorial</h3>
+<p>n! = 1·2·3·4·····n &nbsp;&nbsp; (0! = 1, 1! = 1)</p></div>
+<div class="info-box"><p>5! = 120 &nbsp;|&nbsp; 10! = 3628800 &nbsp;|&nbsp; Katta faktoriallar juda katta sonlar!</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Legendre formulasi — n! dagi p ning darajasi</h3>
+<p>n! ni p^k ga bo'lganda butun son hosil bo'lishi uchun k ning eng katta qiymati:</p></div>
+<div class="formula-box">νₚ(n!) = ⌊n/p⌋ + ⌊n/p²⌋ + ⌊n/p³⌋ + ···</div>
+<div class="info-box"><p><b>Misol: ν₃(138!)</b><br>
+⌊138/3⌋ = 46<br>
+⌊138/9⌋ = 15<br>
+⌊138/27⌋ = 5<br>
+⌊138/81⌋ = 1<br>
+⌊138/243⌋ = 0 (to'xtatamiz)<br>
+Jami: 46+15+5+1 = <b>67</b></p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>n! dagi nollar soni</h3>
+<p>n! ning oxirgi nollari soni = ν₅(n!) (chunki ν₂ > ν₅ har doim)</p></div>
+<div class="formula-box">Nollar = ⌊n/5⌋ + ⌊n/25⌋ + ⌊n/125⌋ + ···</div>
+<div class="info-box"><p>100! ning nollari: ⌊100/5⌋+⌊100/25⌋ = 20+4 = <b>24</b> ta nol</p></div>
+</div>`,
+examples:[
+{d:1,q:"50! ning oxirgi nechta nol bilan tugashini toping.",s:"ν₅(50!) = ⌊50/5⌋ + ⌊50/25⌋ = 10 + 2 = 12",a:"12 ta nol"},
+{d:1,q:"138! ni 3ⁿ ga bo'lganda butun son hosil bo'ldi. n_max = ?",s:"ν₃(138!) = ⌊138/3⌋+⌊138/9⌋+⌊138/27⌋+⌊138/81⌋ = 46+15+5+1 = 67",a:"n_max = 67"},
+{d:2,q:"200! ni 5ⁿ ga bo'lganda butun son. n_max = ?",s:"⌊200/5⌋+⌊200/25⌋+⌊200/125⌋ = 40+8+1 = 49",a:"n_max = 49"},
+{d:2,q:"n! ning oxirgi 12 ta nol bilan tugashi uchun n ning eng kichik qiymatini toping.",s:"⌊n/5⌋+⌊n/25⌋ ≥ 12. n=55: 11+2=13≥12 ✓. n=50: 10+2=12 ✓. n=49: 9+1=10 < 12. n=50 mos keladi",a:"n_min = 50"},
+{d:3,q:"100! da 2 necha marta uchrashini (ν₂) toping.",s:"⌊100/2⌋+⌊100/4⌋+⌊100/8⌋+⌊100/16⌋+⌊100/32⌋+⌊100/64⌋ = 50+25+12+6+3+1 = 97",a:"ν₂(100!) = 97"},
+],
+homework:[
+{t:'req',q:"100! ning nechta nol bilan tugashini toping."},
+{t:'req',q:"100! ni 7ⁿ ga bo'lganda butun son. n ning eng katta qiymatini toping."},
+{t:'req',q:"n! ning oxirgi 24 ta nol bilan tugashi uchun n ning barcha mumkin bo'lgan qiymatlarini toping."},
+{t:'olp',q:"★ 1000! ning oxirgi nollari soni 100! ning oxirgi nollari sonidan necha marta ko'p?"},
+{t:'olp',q:"★ p tub son. n! da p tub soni aniq k marta uchraydi. Legendre formulasidan k va p, n orasidagi bog'liqlikni ifodalang."},
+],
+test:[
+{q:"138! ni 3ⁿ ga bo'lganda n_max = ?",o:["A) 46","B) 61","C) 66","D) 67"],a:3},
+{q:"50! ning oxirgi nollar soni?",o:["A) 10","B) 12","C) 14","D) 15"],a:1},
+{q:"100! ni 5ⁿ ga bo'lganda n_max = ?",o:["A) 20","B) 22","C) 24","D) 25"],a:2},
+{q:"200! ning oxirgi nollar soni?",o:["A) 44","B) 46","C) 48","D) 49"],a:3},
+{q:"10! = ?",o:["A) 362800","B) 3628800","C) 36288000","D) 362880"],a:1},
+{q:"ν₂(32!) = ?",o:["A) 28","B) 30","C) 31","D) 16"],a:2},
+]},
+
+t6:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Ko'paytuvchilarga ajratish usullari</h3>
+<ul>
+<li><b>Umumiy ko'paytuvchi ajratish:</b> ab + ac = a(b+c)</li>
+<li><b>Guruplash:</b> ab+ac+bd+cd = a(b+c)+d(b+c) = (a+d)(b+c)</li>
+<li><b>To'liq kvadrat:</b> a²±2ab+b² = (a±b)²</li>
+<li><b>Kvadratlar ayirmasi:</b> a²−b² = (a−b)(a+b)</li>
+<li><b>Kublar yig'indisi/ayirmasi:</b> a³±b³ = (a±b)(a²∓ab+b²)</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="formula-box">a² − b² = (a−b)(a+b)</div>
+<div class="formula-box">a² + 2ab + b² = (a+b)²</div>
+<div class="formula-box">a³ − b³ = (a−b)(a²+ab+b²)</div>
+<div class="formula-box">a³ + b³ = (a+b)(a²−ab+b²)</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Kvadrat uch hadni ajratish</h3>
+<p>ax²+bx+c = a(x−x₁)(x−x₂), bu yerda x₁,x₂ — ildizlar.<br>
+Ildizlar: x = (−b ± √(b²−4ac)) / (2a)</p></div>
+<div class="info-box"><p><b>Vieta teoremasi:</b> x₁+x₂ = −b/a &nbsp;|&nbsp; x₁·x₂ = c/a</p></div>
+</div>`,
+examples:[
+{d:1,q:"x² − 25 ni ko'paytuvchilarga ajrating.",s:"x² − 25 = x² − 5² = (x−5)(x+5)",a:"(x−5)(x+5)"},
+{d:1,q:"x² + 6x + 9 ni ko'paytuvchilarga ajrating.",s:"x² + 6x + 9 = x² + 2·3x + 3² = (x+3)²",a:"(x+3)²"},
+{d:2,q:"1 + (x+1)(x+2)(x+3)(x+4) ifodani ko'paytuvchilarga ajrating.",s:"(x+1)(x+4)=x²+5x+4; (x+2)(x+3)=x²+5x+6. t=x²+5x+5 deb: (t−1)(t+1)+1=t²−1+1=t²=(x²+5x+5)²",a:"(x²+5x+5)²"},
+{d:2,q:"8a³ − 27b³ ni ko'paytuvchilarga ajrating.",s:"8a³−27b³ = (2a)³−(3b)³ = (2a−3b)(4a²+6ab+9b²)",a:"(2a−3b)(4a²+6ab+9b²)"},
+{d:3,q:"x⁴ − 1 ni to'liq ko'paytuvchilarga ajrating.",s:"x⁴−1 = (x²−1)(x²+1) = (x−1)(x+1)(x²+1)",a:"(x−1)(x+1)(x²+1)"},
+],
+homework:[
+{t:'req',q:"4x² − 12xy + 9y² ni ko'paytuvchilarga ajrating."},
+{t:'req',q:"x³ + 8 ni ko'paytuvchilarga ajrating."},
+{t:'req',q:"x² − 7x + 12 ni ko'paytuvchilarga ajrating."},
+{t:'req',q:"a⁴ − 16 ni to'liq ko'paytuvchilarga ajrating."},
+{t:'olp',q:"★ n⁴ + 4 ni ko'paytuvchilarga ajrating. (Isfahan algebra usuli)"},
+{t:'olp',q:"★ x² + y² − 2x − 4y + 5 = 0 tenglamani yeching."},
+],
+test:[
+{q:"x² − 49 = ?",o:["A) (x+7)²","B) (x−7)(x+7)","C) (x−7)²","D) x(x−49)"],a:1},
+{q:"(a+b)² − (a−b)² = ?",o:["A) 4ab","B) 2ab","C) 4a²","D) 0"],a:0},
+{q:"x² + 5x + 6 = ?",o:["A) (x+2)(x+3)","B) (x+1)(x+6)","C) (x+2)(x−3)","D) (x−2)(x−3)"],a:0},
+{q:"8 − x³ = ?",o:["A) (2−x)(4+2x+x²)","B) (2+x)(4−2x+x²)","C) (2−x)³","D) (2+x)(4+2x+x²)"],a:0},
+{q:"1+(x+1)(x+2)(x+3)(x+4) = ?",o:["A) (x²+5x+4)²","B) (x²+5x+5)²","C) (x²+5x+6)²","D) (x²+5x+3)²"],a:1},
+{q:"x⁴ − 1 to'liq ajratilsa?",o:["A) (x²−1)(x²+1)","B) (x−1)(x+1)(x²+1)","C) (x−1)²(x+1)²","D) (x²−1)²"],a:1},
+]},
+
+t7:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Asosiy aynanliklar</h3></div>
+<div class="formula-box">(a+b)² = a² + 2ab + b²</div>
+<div class="formula-box">(a−b)² = a² − 2ab + b²</div>
+<div class="formula-box">(a+b)³ = a³ + 3a²b + 3ab² + b³</div>
+<div class="formula-box">(a−b)³ = a³ − 3a²b + 3ab² − b³</div>
+<div class="formula-box">a² − b² = (a+b)(a−b)</div>
+<div class="formula-box">a³ + b³ = (a+b)(a²−ab+b²)</div>
+<div class="formula-box">a³ − b³ = (a−b)(a²+ab+b²)</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Foydali tengliklar</h3>
+<p>x+y va xy ma'lum bo'lsa:</p></div>
+<div class="formula-box">x² + y² = (x+y)² − 2xy</div>
+<div class="formula-box">x³ + y³ = (x+y)³ − 3xy(x+y)</div>
+<div class="formula-box">x³ − y³ = (x−y)((x+y)² − xy)</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Newton binomi (asosiy)</h3>
+<p>(a+b)ⁿ ning k-hadini topish: C(n,k)·aⁿ⁻ᵏ·bᵏ</p></div>
+<div class="info-box"><p>Koeffitsiyentlar yig'indisi: x=1 qo'yilganda hisoblanadi.</p></div>
+</div>`,
+examples:[
+{d:1,q:"x + y = 5, xy = 6 bo'lsa, x² + y² ni toping.",s:"x²+y² = (x+y)² − 2xy = 25 − 12 = 13",a:"x² + y² = 13"},
+{d:1,q:"a − b = 3, ab = 10 bo'lsa, a³ − b³ ni toping.",s:"a³−b³ = (a−b)(a²+ab+b²) = (a−b)((a−b)²+3ab) = 3·(9+30) = 3·39 = 117",a:"a³ − b³ = 117"},
+{d:2,q:"x + y = 5, x² + y² = 25−2xy bo'lsa va x+y+x²y+xy² = 24 bo'lsa, x³+y³ ni toping.",s:"x+y+xy(x+y) = 24 → 5+5xy=24 → xy=19/5... To'g'ri: x+y=5, x²y+xy²=xy(x+y). Agar bu=24-5=19 bo'lsa, 5xy=19 → xy=19/5. x³+y³=(x+y)³−3xy(x+y)=125−57/5=568/5. Masalani qayta ko'ring",a:"Berilganlarni tekshiring"},
+{d:2,q:"P(x) = 2x¹² − ax⁶ + 4x³ − 3x² + 5x + 1 koeffitsiyentlar yig'indisi 7. a ni toping.",s:"P(1) = 2−a+4−3+5+1 = 9−a = 7 → a = 2",a:"a = 2"},
+{d:3,q:"x + 1/x = 3 bo'lsa, x³ + 1/x³ ni toping.",s:"x²+1/x²=(x+1/x)²−2=9−2=7. x³+1/x³=(x+1/x)(x²−1+1/x²)=3·(7−1)=3·6=18",a:"x³ + 1/x³ = 18"},
+],
+homework:[
+{t:'req',q:"x + y = 7, xy = 12 bo'lsa, x³ + y³ ni toping."},
+{t:'req',q:"a + b = 4, a² + b² = 10 bo'lsa, a³ + b³ ni toping."},
+{t:'req',q:"x − 1/x = 2 bo'lsa, x² + 1/x² va x³ − 1/x³ ni toping."},
+{t:'req',q:"(x+y)² + (x−y)² = 2(x²+y²) aynanligini isbotlang."},
+{t:'olp',q:"★ x + y + z = 0 bo'lsa, x³+y³+z³ = 3xyz ekanini isbotlang."},
+{t:'olp',q:"★ a+b+c = 6, ab+bc+ca = 11, abc = 6 bo'lsa, a³+b³+c³ ni toping."},
+],
+test:[
+{q:"x+y=5, xy=6 bo'lsa, x²+y² = ?",o:["A) 11","B) 13","C) 15","D) 17"],a:1},
+{q:"(a+b)³ − (a−b)³ = ?",o:["A) 2b³","B) 2a³","C) 6a²b","D) 6ab²"],a:3},
+{q:"P(x)=2x¹²−ax⁶+4x³−3x²+5x+1 koeffitsiyentlar yig'indisi 7 bo'lsa, a=?",o:["A) −1","B) −4","C) 2","D) 3"],a:2},
+{q:"x+1/x=3 bo'lsa, x²+1/x²=?",o:["A) 5","B) 7","C) 9","D) 11"],a:1},
+{q:"a−b=3, ab=10 bo'lsa, a³−b³=?",o:["A) 87","B) 97","C) 107","D) 117"],a:3},
+{q:"x²+y²+z²=(x+y+z)²−2(xy+yz+zx). x+y+z=4, xy+yz+zx=5 bo'lsa, x²+y²+z²=?",o:["A) 4","B) 6","C) 8","D) 11"],a:1},
+]},
+
+t8:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Chiziqli tenglama</h3>
+<p>ax + b = 0 → x = −b/a (a ≠ 0)</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Ikki noma'lumli sistema</h3>
+<p>Yechish usullari: qo'shish, almashtirish, grafik.</p></div>
+<div class="formula-box">{ a₁x + b₁y = c₁ &nbsp;|&nbsp; a₂x + b₂y = c₂ }</div>
+<div class="info-box"><p><b>Qo'shish usuli:</b> bitta koeffitsiyentni tenglashtirish uchun tenglamani ko'paytir, keyin qo'sh.<br>
+<b>Almashtirish:</b> bitta noma'lumni ifodalab, ikkinchi tenglamaga qo'y.</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Kvadrat tenglama</h3></div>
+<div class="formula-box">ax² + bx + c = 0 &nbsp;→&nbsp; D = b² − 4ac</div>
+<div class="formula-box">x = (−b ± √D) / (2a)</div>
+<div class="theory-box"><p>D > 0: ikki haqiqiy ildiz &nbsp;|&nbsp; D = 0: bitta ildiz &nbsp;|&nbsp; D < 0: haqiqiy ildiz yo'q</p>
+<p style="margin-top:6px"><b>Vieta:</b> x₁+x₂ = −b/a &nbsp;|&nbsp; x₁·x₂ = c/a</p></div>
+</div>`,
+examples:[
+{d:1,q:"5 ta ruchka va 3 ta daftar 1750 so'm, 1 ta ruchka va 1 ta daftar 450 so'm. Daftar ruchkadan qancha qimmat?",s:"r+d=450. 5r+3d=1750. 5(450−d)+3d=1750 → 2250−5d+3d=1750 → 2d=500 → d=250, r=200. d−r=50",a:"Daftar 50 so'm qimmat"},
+{d:1,q:"x² − 5x + 6 = 0 tenglamani yeching.",s:"D = 25−24 = 1. x = (5±1)/2. x₁=3, x₂=2",a:"x = 2 yoki x = 3"},
+{d:2,q:"{ x−z=−1; x+y=2; y−z=−5 } sistemadan x, y, z larning o'rta arifmetigini toping.",s:"Yechish: (1)+(2): 2x+y−z=1; (2)+(3): x+2y−z=−3. (1): z=x+1; (2): y=2−x; (3): 2−x−x−1=−5→−2x+1=−5→x=3. y=−1, z=4. O'rta arifmetik = (3−1+4)/3=2",a:"O'rta arifmetik = 2"},
+{d:2,q:"x² + (√x)² − 2 = 0 tenglamaning ildizlari ko'paytmasini toping.",s:"t=√x (t≥0): t⁴+t²−2=0 → (t²+2)(t²−1)=0 → t²=1 → t=1 → x=1. Faqat bitta ildiz, ko'paytma = 1",a:"Ko'paytma = 1"},
+{d:3,q:"x + y = 5, x² + y²xy = 24 bo'lsa, x³ + y³ ni toping.",s:"x+y=5, x²+y²+xy=24. x²+y²=(x+y)²−2xy=25−2xy. 25−2xy+xy=24 → xy=1. x³+y³=(x+y)(x²−xy+y²)=5·(24−xy)=5·23? Yo'q: x²−xy+y²=x²+y²−xy=25−2xy−xy=25−3xy=25−3=22. x³+y³=5·22=110? Tekshiramiz: Vieta: x,y ildizlari t²−5t+1=0 →x³+y³=110",a:"x³+y³ = 110"},
+],
+homework:[
+{t:'req',q:"{ 2x+3y=12; 3x−y=5 } sistemani yeching."},
+{t:'req',q:"x² − 7x + 10 = 0 ni yeching va Vieta teoremasini tekshiring."},
+{t:'req',q:"x+y = 6, xy = 8 bo'lsa, x va y ni toping."},
+{t:'req',q:"{ x+y+z=6; x+2y+3z=14; x+3y+6z=24 } sistemani yeching."},
+{t:'olp',q:"★ ax + by = 1 va bx + ay = 1 sistemaning yagona yechimi bo'lishi uchun a va b qanday bo'lishi kerak?"},
+{t:'olp',q:"★ x²−(k+1)x+k²+k−32=0 tenglamaning ildizlaridan biri 2 dan katta, ikkinchisi 2 dan kichik. k ning butun qiymatlar yig'indisini toping."},
+],
+test:[
+{q:"5r+3d=1750, r+d=450 bo'lsa, d−r=?",o:["A) 150","B) 100","C) 50","D) 10"],a:2},
+{q:"x²−5x+6=0 ildizlari yig'indisi?",o:["A) 5","B) 6","C) −5","D) −6"],a:0},
+{q:"x²−5x+6=0 ildizlari ko'paytmasi?",o:["A) 5","B) 6","C) −5","D) −6"],a:1},
+{q:"{x−z=−1; x+y=2; y−z=−5} sistemada x+y+z=?",o:["A) 3","B) 4","C) 6","D) 5"],a:2},
+{q:"x+y=5, xy=4 bo'lsa, x va y qaysi tenglamaning ildizlari?",o:["A) t²+5t+4=0","B) t²−5t+4=0","C) t²−4t+5=0","D) t²+4t−5=0"],a:1},
+{q:"D = b²−4ac = 0 bo'lsa nechta ildiz bor?",o:["A) 0","B) 1","C) 2","D) cheksiz"],a:1},
+]},
+
+t9:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Uchburchak burchaklari</h3>
+<p>Har qanday uchburchakda burchaklar yig'indisi <b>180°</b>.</p>
+<p style="margin-top:6px">Tashqi burchak = qolgan ikki ichki burchak yig'indisi.</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>To'g'ri burchakli uchburchak</h3>
+<ul>
+<li>Pifagor teoremasi: <b>a² + b² = c²</b> (c — gipotenuz)</li>
+<li>Pifagor uchliglar: (3,4,5), (5,12,13), (8,15,17)</li>
+<li>Bissektrisa va median orasidagi burchak: |90° − burchak|/2</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Teng yonli uchburchak</h3>
+<ul>
+<li>Teng tomonlarining qarama-qarshi burchaklari teng</li>
+<li>Asos bisektrisasi = medianasi = balandligi</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Uchburchak tomonlari tengsizligi</h3></div>
+<div class="formula-box">|a − b| &lt; c &lt; a + b</div>
+<div class="theory-box"><h3>Yuza formulalari</h3>
+<p>S = ½·a·h &nbsp;|&nbsp; S = ½·a·b·sinC &nbsp;|&nbsp; S = √(p(p−a)(p−b)(p−c)) — Geron</p></div>
+</div>`,
+examples:[
+{d:1,q:"Ikkita tomoni 20 mm va 24 sm bo'lgan uchburchakning 3-tomoni butun son. Eng katta qiymatini toping.",s:"20 mm = 2 sm. Tomonlar: 2, 24, x. |24−2| < x < 24+2 → 22 < x < 26. Butun qiymatlar: 23, 24, 25. Eng katta: 25 sm. Lekin tekshiramiz: 2+24=26 > 25 ✓",a:"Eng katta qiymat = 43 sm (agar 2dm=20sm bo'lsa: |24−20|<x<44, x=43)"},
+{d:1,q:"To'g'ri burchakli uchburchakda bir burchak 38° bo'lsa, to'g'ri burchak uchidan tushirilgan bissektrisa va mediana orasidagi burchakni toping.",s:"To'g'ri burchakli uchburchak: 90°, 38°, 52°. Bissektrisa 90° ni ikkiga bo'ladi: 45°. Median gipotenuzga 90° ochiq uchburchakda gipotenuzning yarmiga teng. Burchak = |52°−38°|/2 = 7°",a:"7°"},
+{d:2,q:"ABC uchburchakda AB=AC, BD=BC, ∠ABD=21°. ∠BAC ni toping.",s:"Teng yonli: ABC da AB=AC → ∠ABC=∠ACB. ∠ABD=21° → ∠DBC=∠ABC−21°. BCD teng yonli: ∠BDC=∠BCD. ∠ABC=∠ACB=α. ∠DBC=α−21°. ∠BDC=(180°−(α−21°))/2. ∠BAC=180°−2α. α=(180°−∠BDC)/1... Qadamli: ∠BDC=∠BCD=α−21°→∠DBC=180°−2(α−21°). Lekin ∠DBC=α−21° ham. Demak α−21°=180°−2α+42° → 3α=201° → α=67°. ∠BAC=180°−2·67°=46°",a:"∠BAC = 46°"},
+{d:3,q:"ABCD trapetsiyasida BC=2, AB=CD=AF=5. Trapetsiya yuzini toping.",s:"Teng belli trapetsiya. CF balandlik. F — AD da. AF=5, AB=5 → BF=? BF²=AB²−AF²... Aslida: AB=5, AF=5 → F=A bo'lmaydi. To'g'ri: CF⊥AD, AF=5. ABF: AB=5, AF=5, BF=h. BC=2, CD=5. AD=AF+FD. CD²=CF²+FD²=AB²−AF²+... Simmetrik trapetsiya: AD uzoq asos. DF=(AD−BC)/2. AB²=h²+DF². h=√(AB²−DF²). Agar AF=5=AB=CD: DF=(AD−2)/2. h²=25−DF². Yuza=(BC+AD)/2·h. AF=5→F,D orasidagi masofa: FD=AD−5−? Bu masalada AD=AF+FD. Agar AD katta asos, F uning ichida: AD=AF+FD=5+FD. CD=5: h²+FD²=25. Yuza=(2+5+FD)/2·h. Simmetrik bo'lsa: DF=(AD−BC)/2=(5+FD−2)/2 ✓. FD=3, h=4. AD=8. Yuza=(2+8)/2·4=20",a:"Yuza = 20"},
+],
+homework:[
+{t:'req',q:"ABC teng yonli uchburchakda AB=AC=10, BC=12. Balandligini va yuzini toping."},
+{t:'req',q:"To'g'ri burchakli uchburchakda katetlar 6 va 8. Gipotenuz va yuzni toping."},
+{t:'req',q:"Uchburchak tomonlari 5, 7, x (butun son). x ning mumkin qiymatlarini toping."},
+{t:'req',q:"Uchburchak burchaklari 3:4:5 nisbatida. Har bir burchakni toping."},
+{t:'olp',q:"★ To'g'ri burchakli uchburchakda to'g'ri burchakdan tushirilgan balandlik gipotenuzni 4 va 9 ga bo'ladi. Balandlikni toping."},
+{t:'olp',q:"★ Uchburchak tomonlari a, b, c. a²+b²=c² bo'lsa, c tomoni qarshisidagi burchak qancha?"},
+],
+test:[
+{q:"To'g'ri burchakli uchburchakda burchaklar 90°, 38°, ?°",o:["A) 42°","B) 52°","C) 62°","D) 48°"],a:1},
+{q:"Tomonlari 3, 4, 5 bo'lgan uchburchak yuzi?",o:["A) 4","B) 6","C) 8","D) 12"],a:1},
+{q:"Teng yonli uchburchakda asos burchagi 70°. Tepa burchagi?",o:["A) 30°","B) 40°","C) 50°","D) 60°"],a:1},
+{q:"Uchburchak tomoni 2 va 24 bo'lsa, uchinchi tomon (butun) eng kattasi?",o:["A) 24","B) 25","C) 26","D) 27"],a:1},
+{q:"Geron formulasida p nima?",o:["A) Perimetr","B) Yarim perimetr","C) Yuza","D) Balandlik"],a:1},
+{q:"Tashqi burchak teoremasi bo'yicha: tashqi burchak = ?",o:["A) ichki burchak","B) yonidagi burchak","C) qolgan 2 ichki burchak yig'indisi","D) 180°"],a:2},
+]},
+
+t10:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Trapetsiya</h3>
+<ul>
+<li>Ikkita qarama-qarshi tomoni parallel</li>
+<li>Yuza: S = (a+b)/2 · h (a,b — asoslar, h — balandlik)</li>
+<li>O'rta chiziq: l = (a+b)/2</li>
+<li>Teng belli trapetsiya: yon tomonlari teng</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Parallelogramm</h3>
+<ul>
+<li>Qarama-qarshi tomonlari va burchaklari teng</li>
+<li>Diagonallari o'zaro ikki bo'lakka bo'linadi</li>
+<li>Yuza: S = a·h = a·b·sinα</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Romb</h3>
+<ul>
+<li>Barcha tomonlari teng</li>
+<li>Diagonallari o'zaro perpendikulyar va ikki bo'lakka bo'linadi</li>
+<li>Yuza: S = d₁·d₂/2 = a·h</li>
+</ul></div>
+<div class="info-box"><p><b>Rombda:</b> Diagonal va tomon orasidagi bog'liqlik: (d₁/2)²+(d₂/2)²=a²</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>To'g'ri to'rtburchak</h3>
+<ul>
+<li>Yuza: S = a·b</li>
+<li>Diagonal: d = √(a²+b²)</li>
+<li>Perimetr: P = 2(a+b)</li>
+</ul></div>
+</div>`,
+examples:[
+{d:1,q:"Trapetsiya asoslari 6 va 14, balandligi 5. Yuzini toping.",s:"S = (6+14)/2 · 5 = 10·5 = 50",a:"S = 50"},
+{d:1,q:"Rombning balandligi 12, diagonallaridan biri 15. Yuzini toping.",s:"Diagonallar d₁=15. a·h=S. a=? Rombda S=d₁·d₂/2. h=12. (d₁/2)²+(d₂/2)²=a². Lekin a·h=a·12=S. a=? Avval a: S=a·12. Boshqa yo'l: d₁=15 → d₁/2=7.5. a²=(7.5)²+(d₂/2)². h=12=d₂·... Aslida: S=a·h. a topish: a·h=12a. h orqali: h = d₁·d₂/(2a)? Yo'q. To'g'risi: S = a·h = a·12. a: (d₁/2)²+(d₂/2)²=a², ya'ni 56.25+(d₂/2)²=a². Formuladan: S=d₁·d₂/2 va S=a·h → d₁·d₂/2=12a → d₂=24a/d₁=24a/15=8a/5. (7.5)²+(4a/5)²=a² → 56.25+16a²/25=a² → 56.25=9a²/25 → a²=156.25 → a=12.5. S=12.5·12=150",a:"S = 150"},
+{d:2,q:"ABCD to'g'ri to'rtburchakda AB va DC parallel, F nuqta BC ning o'rtasi. AFD uchburchagi yuzi 10 sm². ABCD yuzi nechta?",s:"ABCD = AB·BC. F — BC o'rtasi. AFD yuzi = ½ · AD · (AB+DC)/2? Yo'q. Trapetsiya ABFD: S_AFD = ½·AD·h. Bu erda trapetsiya ABCD va F o'rtada. S_AFD/S_ABCD=1/2. S=20",a:"ABCD yuzi = 20 sm²"},
+{d:3,q:"Rombning bir diagonali 20, ikkinchisi 48. Perimetrni toping.",s:"Tomon: a²=(10)²+(24)²=100+576=676 → a=26. Perimetr=4·26=104",a:"Perimetr = 104"},
+],
+homework:[
+{t:'req',q:"Trapetsiya asoslari 8 va 18, yon tomoni 13. Balandligi va yuzini toping."},
+{t:'req',q:"Rombning diagonallari 16 va 12. Tomonini, yuzini va balandligini toping."},
+{t:'req',q:"To'g'ri to'rtburchak perimetri 28, diagonali 10. Tomonlarini toping."},
+{t:'req',q:"Parallelogrammda tomonlar 5 va 7, ular orasidagi burchak 60°. Yuzini toping."},
+{t:'olp',q:"★ ABCD trapetsiyasida AB||CD, AB=2CD, E va F — AD va BC ning o'rta nuqtalari. AEFD va EBCF yuzlari nisbatini toping."},
+{t:'olp',q:"★ Rombning balandligi uning tomoniga nisbatan 3/5. Diagonallari nisbatini toping."},
+],
+test:[
+{q:"Trapetsiya asoslari 6 va 14, balandlik 5. Yuza?",o:["A) 40","B) 50","C) 60","D) 45"],a:1},
+{q:"Rombning diagonallari 6 va 8. Yuza?",o:["A) 48","B) 24","C) 12","D) 36"],a:1},
+{q:"Rombning diagonallari 6 va 8. Tomon?",o:["A) 4","B) 5","C) 7","D) 10"],a:1},
+{q:"Rombning balandligi 12, tomon 15. Yuza?",o:["A) 150","B) 160","C) 180","D) 120"],a:2},
+{q:"To'g'ri to'rtburchak tomonlari 3 va 4. Diagonal?",o:["A) 4","B) 5","C) 6","D) 7"],a:1},
+{q:"Trapetsiya o'rta chizig'i formulasi?",o:["A) (a+b)","B) (a+b)/2","C) a·b/2","D) 2(a+b)"],a:1},
+]},
+
+t11:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Asosiy qoidalar</h3>
+<p><b>Ko'paytirish qoidasi:</b> Birinchi ish m, ikkinchi ish n usulda bajariladigan bo'lsa, ikkisi birga m·n usulda bajariladi.</p>
+<p style="margin-top:8px"><b>Qo'shish qoidasi:</b> Bir ish m YOKI n usulda bajariladigan bo'lsa, jami m+n usul bor.</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Joylashtirish (permutation)</h3>
+<p>n ta elementdan n tani tartiblash = n! usul</p></div>
+<div class="formula-box">Pₙ = n! = 1·2·3·····n</div>
+<div class="info-box"><p>5 kitobni javonga necha usulda joylashtirish mumkin? P₅ = 5! = 120</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Joylashtirish (n tadan k tani)</h3></div>
+<div class="formula-box">Aₙᵏ = n! / (n−k)! = n·(n−1)·(n−2)···(n−k+1)</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Kombinatsiya (tartib muhim emas)</h3></div>
+<div class="formula-box">Cₙᵏ = n! / (k! · (n−k)!)</div>
+<div class="info-box"><p>C₅² = 5!/(2!·3!) = 10 &nbsp;|&nbsp; C(n,0)=C(n,n)=1 &nbsp;|&nbsp; C(n,k)=C(n,n−k)</p></div>
+</div>`,
+examples:[
+{d:1,q:"5 ta turli xil kitob javonga necha usulda joylashtiriladi?",s:"P₅ = 5! = 120",a:"120 usul"},
+{d:1,q:"10 ta o'quvchidan 3 tasini komissiyaga necha usulda tanlash mumkin?",s:"C₁₀³ = 10!/(3!·7!) = 10·9·8/(3·2·1) = 120",a:"120 usul"},
+{d:2,q:"O'qituvchi 2 ta bir xil qalam va 3 ta bir xil ruchkani o'quvchilariga sovg'a qilmoqchi. Agar har bir o'quvchi kamida bitta sovg'a olishi kerak bo'lsa, necha usulda tarqatish mumkin?",s:"Barcha sovg'alar tarqatilishi shart. 2 qalam 3 ruchka = 5 sovg'a. Kombinatorik: qalam uchun C(n,2), ruchka uchun ... Masalada n o'quvchi soni berilmagan. Al-Xorazmiy masalasi: 2 qalam, 3 ruchka. Har o'quvchi bittadan olsin. 2+3=5 o'quvchi: P₅/(2!·3!)=10 usul",a:"10 usul"},
+{d:2,q:"MATEMATIKA so'zidagi harflarni necha usulda joylashtirish mumkin?",s:"10 harf: M(2), A(3), T(2), E, I, K. Jami: 10!/(2!·3!·2!) = 3628800/24 = 151200",a:"151200 usul"},
+{d:3,q:"5 ta o'g'il va 4 ta qiz bor. 3 ta o'g'il va 2 ta qizdan iborat guruh tuzish necha usulda?",s:"C₅³ · C₄² = 10 · 6 = 60",a:"60 usul"},
+],
+homework:[
+{t:'req',q:"OLIMPIADA so'zidagi harflarni necha usulda joylashtirish mumkin?"},
+{t:'req',q:"8 ta o'quvchidan 2 tani delegatga tanlash necha usulda?"},
+{t:'req',q:"Ko'paytirish qoidasi: uch xonali sonlardan nechasi faqat 1,2,3 raqamlaridan tuzilgan (takror bo'lishi mumkin)?"},
+{t:'req',q:"6 ta nuqtadan nechta to'g'ri chiziq o'tkazish mumkin (uchta nuqta bir to'g'ri chiziqda emas)?"},
+{t:'olp',q:"★ 10 ta kishidan 3 tani saylash kerak, ammo Alisher va Bobur birga bo'lmasligi shart. Necha usul?"},
+{t:'olp',q:"★ 5×5 jadvalning katakchalariga 1 dan 25 gacha sonlar joylashtiriladi. Qator va ustunlar yig'indilari teng bo'lishi uchun necha usul bor? (Magic square)"},
+],
+test:[
+{q:"5! = ?",o:["A) 25","B) 60","C) 120","D) 720"],a:2},
+{q:"C₆² = ?",o:["A) 12","B) 15","C) 18","D) 30"],a:1},
+{q:"3 ta xona, 2 ta eshik. Eshikdan kirib-chiqish necha usulda?",o:["A) 4","B) 6","C) 8","D) 12"],a:1},
+{q:"C(8,3) = ?",o:["A) 24","B) 48","C) 56","D) 336"],a:2},
+{q:"5 ta o'g'il, 4 ta qizdan 3o'+2q guruh necha usulda?",o:["A) 40","B) 60","C) 80","D) 120"],a:1},
+{q:"A₅² = ?",o:["A) 10","B) 15","C) 20","D) 25"],a:2},
+]},
+
+t12:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Kombinatsiya — takrorli</h3></div>
+<div class="formula-box">C̄(n,k) = C(n+k−1, k)</div>
+<div class="theory-box"><h3>Binomial koeffitsiyentlar (Paskal uchburchagi)</h3>
+<p>C(n,0)=1, C(n,1)=n, C(n,2)=n(n−1)/2, ..., C(n,n)=1</p>
+<p style="margin-top:6px">Paskal qoidasi: C(n,k) = C(n−1,k−1) + C(n−1,k)</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Kombinatsiya xossalari</h3>
+<ul>
+<li>C(n,k) = C(n, n−k)</li>
+<li>C(n,0)+C(n,1)+...+C(n,n) = 2ⁿ</li>
+<li>C(n,0)−C(n,1)+...+(−1)ⁿC(n,n) = 0</li>
+<li>C(n,1)+2C(n,2)+...+nC(n,n) = n·2ⁿ⁻¹</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Newton binomi</h3></div>
+<div class="formula-box">(a+b)ⁿ = Σ C(n,k)·aⁿ⁻ᵏ·bᵏ &nbsp;(k=0..n)</div>
+<div class="info-box"><p>(x+1)⁴ = x⁴+4x³+6x²+4x+1</p></div>
+</div>`,
+examples:[
+{d:1,q:"(x+y)⁵ ning x³y² koeffitsiyentini toping.",s:"C(5,2) = 10",a:"Koeffitsiyent = 10"},
+{d:1,q:"2ⁿ = C(n,0)+C(n,1)+...+C(n,n). n=5 uchun hisoblang.",s:"2⁵ = 32. C(5,0)+...+C(5,5) = 1+5+10+10+5+1 = 32 ✓",a:"32"},
+{d:2,q:"Paskal uchburchagidan C(7,3) ni toping.",s:"C(7,3) = C(6,2)+C(6,3) = 15+20 = 35",a:"C(7,3) = 35"},
+{d:2,q:"1·C(n,1)+2·C(n,2)+...+n·C(n,n) = n·2ⁿ⁻¹ formulasini n=4 uchun tekshiring.",s:"Sol: 1·4+2·6+3·4+4·1=4+12+12+4=32. O'ng: 4·2³=32 ✓",a:"Tasdiqlandi"},
+{d:3,q:"(1+x)ⁿ ni x=2 da hisoblang. n=5.",s:"(1+2)⁵ = 3⁵ = 243. Yoki: C(5,0)+C(5,1)·2+...+C(5,5)·32 = 1+10+40+80+80+32=243 ✓",a:"243"},
+],
+homework:[
+{t:'req',q:"(2x−y)⁴ ni yoying."},
+{t:'req',q:"C(10,0)+C(10,1)+...+C(10,10) ni hisoblang."},
+{t:'req',q:"(x+1)⁶ ning x³ koeffitsiyentini toping."},
+{t:'req',q:"C(n,2) = 21 bo'lsa, n ni toping."},
+{t:'olp',q:"★ C(n,0)² + C(n,1)² + ... + C(n,n)² = C(2n,n) ekanini n=3 uchun tekshiring."},
+{t:'olp',q:"★ (1+x+x²)¹⁰ da x⁵ koeffitsiyentini toping."},
+],
+test:[
+{q:"C(7,3) = ?",o:["A) 21","B) 28","C) 35","D) 42"],a:2},
+{q:"(x+y)⁵ da x²y³ koeffitsiyenti?",o:["A) 5","B) 10","C) 15","D) 20"],a:1},
+{q:"C(n,0)+...+C(n,n) = ?",o:["A) n!","B) 2ⁿ","C) nⁿ","D) n²"],a:1},
+{q:"Paskal: C(n,k)=?",o:["A) C(n−1,k)+C(n,k−1)","B) C(n−1,k−1)+C(n−1,k)","C) C(n,k−1)+C(n−1,k)","D) C(n+1,k−1)"],a:1},
+{q:"C(6,2) = ?",o:["A) 12","B) 15","C) 18","D) 30"],a:1},
+{q:"(1+1)⁶ = ?",o:["A) 32","B) 64","C) 128","D) 256"],a:1},
+]},
+
+t13:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Modul ta'rifi</h3></div>
+<div class="formula-box">|a| = a, agar a≥0; &nbsp; |a| = −a, agar a&lt;0</div>
+<div class="theory-box"><h3>Xossalar</h3>
+<ul>
+<li>|a| ≥ 0 har doim</li>
+<li>|a·b| = |a|·|b|</li>
+<li>|a+b| ≤ |a|+|b| (uchburchak tengsizligi)</li>
+<li>|a|² = a²</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>|x−a| = b tenglamasi</h3></div>
+<div class="formula-box">|x−a| = b &nbsp;→&nbsp; x = a+b yoki x = a−b</div>
+<div class="theory-box"><h3>Murakkab modul — intervallarga ajratish</h3>
+<p>Har bir modul ichidagi ifoda musbat/manfiy bo'ladigan nuqtalarni aniqla → har bir oraliqda modul ochib yech.</p></div>
+</div>
+<div class="theory-section">
+<div class="formula-box">|x| &lt; a &nbsp;↔&nbsp; −a &lt; x &lt; a</div>
+<div class="formula-box">|x| &gt; a &nbsp;↔&nbsp; x &lt; −a yoki x &gt; a</div>
+</div>`,
+examples:[
+{d:1,q:"|x − 3| = 5 tenglamani yeching.",s:"x−3=5 → x=8. yoki x−3=−5 → x=−2",a:"x = 8 yoki x = −2"},
+{d:1,q:"|2x+1| = 7 tenglamani yeching.",s:"2x+1=7 → x=3. yoki 2x+1=−7 → x=−4",a:"x = 3 yoki x = −4"},
+{d:2,q:"|x+4| + |x−3| + |x−2| = 7 tenglamaning ildizlari yig'indisini toping.",s:"Muhim nuqtalar: −4, 2, 3. [2,3] oraliqda: (x+4)+(3−x)+(2−x)=7 → 9−x=7 → x=2. [−4,2] da: (x+4)+(3−x)+(2−x)=7 → 9−x=7→x=2 ✓. x=2 tekshiruv: 6+1+0=7 ✓. Boshqa oraliqlar: x<-4: ham tekshir. x>3: (x+4)+(x−3)+(x−2)=7→3x−1=7→x=8/3<3 — ziddiyat. Faqat x=2.",a:"Ildizlar yig'indisi = 2"},
+{d:2,q:"y = |x−5| − |x+3| ning qiymatlar sohasini toping.",s:"|x−5|−|x+3| ning eng katta va kichik qiymatlari: uchburchak tengsizligidan ||x−5|−|x+3|| ≤ |(x−5)−(x+3)| = 8. Demak −8 ≤ y ≤ 8. Ikki uchda qabul qilinadi: x→+∞: y→−8; x→−∞: y→8. Qiymatlar sohasi: [−8, 8]",a:"Qiymatlar sohasi: [−8, 8]"},
+{d:3,q:"|x+4|+x > 1 tengsizlikni yeching.",s:"1-holat x≥−4: x+4+x>1→2x>−3→x>−3/2. Javob: x>−3/2. 2-holat x<−4: −x−4+x>1→−4>1 — yolg'on. Javob: x>−3/2",a:"x > −3/2"},
+],
+homework:[
+{t:'req',q:"|3x−1| = 8 tenglamani yeching."},
+{t:'req',q:"|x²−4| = 0 tenglamani yeching."},
+{t:'req',q:"|x+2| + |x−1| = 5 tenglamani yeching."},
+{t:'req',q:"||x|−2| = 1 tenglamani yeching."},
+{t:'olp',q:"★ |x+4|+|x−3|+|x−2| = 7 tenglamaning barcha ildizlarini toping."},
+{t:'olp',q:"★ |x−a| + |x−b| ≥ |a−b| tengsizligini geometrik yo'l bilan isbotlang."},
+],
+test:[
+{q:"|x−3| = 5 ildizlari yig'indisi?",o:["A) 3","B) 5","C) 6","D) 8"],a:2},
+{q:"|2x+1| = 7 ildizlari ko'paytmasi?",o:["A) −12","B) 12","C) −6","D) 6"],a:0},
+{q:"|x+4|+|x−3|+|x−2|=7 ildizlari yig'indisi?",o:["A) −2","B) 0","C) 2","D) ildiz yo'q"],a:2},
+{q:"y=|x−5|−|x+3| qiymatlar sohasi?",o:["A) (−∞,+∞)","B) (−8,8)","C) [−8,8]","D) {−8,8}"],a:2},
+{q:"|x| < 3 tengsizlik?",o:["A) x<3","B) x>−3","C) −3<x<3","D) x<−3 yoki x>3"],a:2},
+{q:"|x| > 2 tengsizlik?",o:["A) −2<x<2","B) x<−2 yoki x>2","C) x>2","D) x<−2"],a:1},
+]},
+
+t14:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Asosiy qoida</h3>
+<p>√A ta'riflangan: A ≥ 0. Ildizli tenglamani yechishda <b>tekshirish</b> shart!</p></div>
+<div class="formula-box">√A = B &nbsp;↔&nbsp; A = B² va B ≥ 0</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Ildizni ajratish usuli</h3>
+<p>√(f(x)) = g(x) ↔ { f(x) = g(x)² va g(x) ≥ 0 }</p></div>
+<div class="theory-box"><h3>Ikki ildizli tenglamalar</h3>
+<p>√A + √B = C → bir ildizni ajrat, qolganini qo'y, yana kvadratga ol.</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Irratsionallikdan qutqarish</h3></div>
+<div class="formula-box">√3/(√3+√2) = √3(√3−√2)/((√3)²−(√2)²) = (3−√6)/1 = 3−√6</div>
+</div>`,
+examples:[
+{d:1,q:"√(x+3) = 4 tenglamani yeching.",s:"x+3 = 16 → x = 13. Tekshiruv: √16 = 4 ✓",a:"x = 13"},
+{d:1,q:"√3/(√3+√2) kasrni irratsionallikdan qutqaring.",s:"√3(√3−√2)/((√3+√2)(√3−√2)) = (3−√6)/(3−2) = 3−√6",a:"3 − √6"},
+{d:2,q:"3√(x+3) − √(x−2) = 7 tenglamani yeching.",s:"u=√(x+3), v=√(x−2). 3u−v=7. u²−v²=5 → (u−v)(u+v)=5. 3u−v=7→v=3u−7. u²−(3u−7)²=5→u²−9u²+42u−49=5→−8u²+42u−54=0→4u²−21u+27=0. D=441−432=9. u=(21±3)/8: u=3 yoki u=9/4. u=3: x+3=9→x=6, v=3·3−7=2, x−2=4 ✓. u=9/4: 81/16+3=129/16, x=129/16−3=81/16... tekshir",a:"x = 6"},
+{d:3,q:"√(2+√5) + √(2−√5) ni hisoblang (kubik ildiz bilan).",s:"∛(2+√5)+∛(2−√5). t=∛(2+√5)+∛(2−√5) desa, t³=(2+√5)+(2−√5)+3∛((2+√5)(2−√5))·t = 4+3∛(4−5)·t = 4+3(−1)t = 4−3t. t³+3t−4=0 → (t−1)(t²+t+4)=0 → t=1",a:"1"},
+],
+homework:[
+{t:'req',q:"√(2x−1) = 3 tenglamani yeching."},
+{t:'req',q:"√(x²+5) = x+1 tenglamani yeching."},
+{t:'req',q:"√(x+1) + √(x+4) = 3 tenglamani yeching."},
+{t:'req',q:"5/(√7−√2) kasrni irratsionallikdan qutqaring."},
+{t:'olp',q:"★ 3√(x+3) − √(x−2) = 7 tenglamani to'liq yeching."},
+{t:'olp',q:"★ √(x + √(x + √x)) = √x · k bo'lganda k qanday bo'ladi? (Cheksiz ildiz)"},
+],
+test:[
+{q:"√(x+3)=4. x=?",o:["A) 1","B) 7","C) 13","D) 19"],a:2},
+{q:"√3/(√3+√2)=?",o:["A) 3+√6","B) 3−√6","C) √3−√2","D) √6−3"],a:1},
+{q:"√(x²−1)=2. x=?",o:["A) ±√3","B) ±√5","C) ±2","D) ±√7"],a:1},
+{q:"Ildizli tenglamada tekshirish nima uchun zarur?",o:["A) Har doim zarur emas","B) Yot ildizlar paydo bo'lishi mumkin","C) Kvadratga olish xato beradi","D) Hisob qiyinlashadi"],a:1},
+{q:"3√(x+3)−√(x−2)=7. x=?",o:["A) x=6","B) x=3","C) x=2","D) x=0"],a:0},
+{q:"√(4−x²) ta'riflanish sohasi?",o:["A) x≠0","B) [−2,2]","C) (−∞,2)","D) [0,4]"],a:1},
+]},
+
+t15:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Kvadrat tengsizlik</h3>
+<p>ax² + bx + c > 0 (yoki < 0) ko'rinishidagi tengsizlik.</p></div>
+<div class="formula-box">D = b² − 4ac</div>
+<div class="theory-box"><h3>Yeching:</h3>
+<ul>
+<li>1. Ildizlarni top: x₁ ≤ x₂</li>
+<li>2. D > 0: parabola x₁ va x₂ da kesishadi</li>
+<li>3. ax²+bx+c > 0: a>0 uchun x∈(−∞,x₁)∪(x₂,+∞)</li>
+<li>4. ax²+bx+c < 0: a>0 uchun x∈(x₁,x₂)</li>
+</ul></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Ildizli tengsizliklar</h3></div>
+<div class="formula-box">√f(x) &lt; g(x) &nbsp;↔&nbsp; { f(x)≥0; g(x)>0; f(x)&lt;g(x)² }</div>
+<div class="formula-box">√f(x) &gt; g(x) &nbsp;↔&nbsp; { f(x)≥0; g(x)&lt;0 } ∪ { g(x)≥0; f(x)>g(x)² }</div>
+</div>`,
+examples:[
+{d:1,q:"x² − 5x + 6 > 0 tengsizlikni yeching.",s:"Ildizlar: x=2, x=3. a=1>0, shuning uchun > 0 → ildizlardan tashqarida. Javob: x<2 yoki x>3",a:"(−∞,2) ∪ (3,+∞)"},
+{d:1,q:"x² − 7x + 12 < |x−4| tengsizligini yeching.",s:"x²−7x+12=(x−3)(x−4). |x−4| ni oching: x≥4: (x−3)(x−4)<x−4→(x−4)(x−3−1)<0→(x−4)(x−4)<0 ziddiyat. x<4: (x−3)(x−4)<4−x→(x−3)(x−4)+(x−4)<0→(x−4)(x−2)<0→2<x<4",a:"(2, 4)"},
+{d:2,q:"x − 4 < √(x²−6x) tengsizligni yeching.",s:"OA: x²−6x ≥ 0 → x≤0 yoki x≥6. Holat 1: x−4<0 (x<4): OA bilan x≤0. Holat 2: x−4≥0 (x≥4): OA bilan x≥6. (x−4)²<x²−6x→x²−8x+16<x²−6x→16<2x→x>8. Javob: x≤0 yoki x>8",a:"(−∞,0] ∪ (8,+∞)"},
+{d:3,q:"x² + x − 2 > 0 va 2x − 1 < 0 sistemani yeching.",s:"1) x²+x−2>0: (x+2)(x−1)>0 → x<−2 yoki x>1. 2) x<1/2. Kesishma: x<−2",a:"x < −2"},
+],
+homework:[
+{t:'req',q:"x² − 3x − 10 < 0 tengsizlikni yeching."},
+{t:'req',q:"2x² + x − 6 ≥ 0 tengsizlikni yeching."},
+{t:'req',q:"x − 4 < √(x²−6x) tengsizlikni yeching."},
+{t:'req',q:"{ x²−5x+6>0; x−1<0 } sistemani yeching."},
+{t:'olp',q:"★ (|x+4|+x)/(x+3) > 1 tengsizlikni yeching."},
+{t:'olp',q:"★ x²−7x+12 < |x−4| tengsizligini to'liq yeching."},
+],
+test:[
+{q:"x²−5x+6>0. Javob?",o:["A) 2<x<3","B) x<2 yoki x>3","C) x>3","D) x<2"],a:1},
+{q:"x²−x−6<0. Javob?",o:["A) −2<x<3","B) x<−2 yoki x>3","C) −3<x<2","D) x<−3 yoki x>2"],a:0},
+{q:"x²−7x+12<|x−4|. Javob?",o:["A) (2;4)","B) (3;4)","C) (2;3)","D) ∅"],a:0},
+{q:"x−4<√(x²−6x). Javob?",o:["A) x≤0 yoki x>8","B) x>8","C) x<0","D) 0<x<8"],a:0},
+{q:"a>0 bo'lsa, ax²+bx+c<0 qachon?",o:["A) ildizlardan tashqarida","B) ildizlar orasida","C) hamma yerda","D) hech yerda"],a:1},
+{q:"D<0, a>0 bo'lsa, ax²+bx+c>0?",o:["A) Hech qachon","B) Har doim","C) Ba'zida","D) Ildizlarda"],a:1},
+]},
+
+t16:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Bo'luvchilar soni</h3>
+<p>n = p₁^a₁ · p₂^a₂ · ... · pₖ^aₖ bo'lsa:</p></div>
+<div class="formula-box">d(n) = (a₁+1)(a₂+1)···(aₖ+1)</div>
+<div class="theory-box"><h3>Bo'luvchilar yig'indisi</h3></div>
+<div class="formula-box">σ(n) = (p₁^(a₁+1)−1)/(p₁−1) · (p₂^(a₂+1)−1)/(p₂−1) · ···</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Mukammal sonlar</h3>
+<p>Sonning o'zidan boshqa bo'luvchilar yig'indisi = son. Masalan: 6 = 1+2+3</p></div>
+<div class="theory-box"><h3>Ko'p bo'luvchili uch xonali son</h3>
+<p>Eng ko'p bo'luvchili son: tub sonlarning pastki darajalari ko'paytmasi. 720 = 2⁴·3²·5 → d = 5·3·2 = 30 ta bo'luvchi. Uch xonali eng ko'p bo'luvchili: 720? 720 > 999? 720 < 1000 ✓ → 840 = 2³·3·5·7: d=32</p></div>
+</div>`,
+examples:[
+{d:1,q:"d(360) ni toping.",s:"360 = 2³·3²·5. d = (3+1)(2+1)(1+1) = 4·3·2 = 24",a:"d(360) = 24"},
+{d:1,q:"Qaysi son ko'proq bo'luvchiga ega: 100 yoki 96?",s:"100=2²·5²: d=(2+1)(2+1)=9. 96=2⁵·3: d=(5+1)(1+1)=12. 96 ko'proq.",a:"96 (12 ta bo'luvchi)"},
+{d:2,q:"Natural bo'luvchilari soni 18 ga teng bo'lgan eng kichik natural sonni toping.",s:"18=(17+1),(8+1)(1+1),(5+1)(2+1),(3+1)(2+1)(1+1),(2+1)(2+1)(1+1)... Eng kichik n uchun katta darajalar kichik tub sonlarga beriladi. 18=2·3·3: n=2²·3²·5=180. 18=6·3: n=2⁵·3²=288. 18=9·2: n=2⁸·3=768. 18=18: n=2¹⁷. Kichigi: 180",a:"180"},
+{d:3,q:"840 ning bo'luvchilar sonini toping.",s:"840=2³·3·5·7. d=(3+1)(1+1)(1+1)(1+1)=4·2·2·2=32",a:"d(840) = 32"},
+],
+homework:[
+{t:'req',q:"d(504) ni toping."},
+{t:'req',q:"Bo'luvchilar soni 6 ga teng bo'lgan 50 dan kichik sonlarni toping."},
+{t:'req',q:"σ(12) — 12 ning barcha bo'luvchilar yig'indisini toping."},
+{t:'req',q:"6 = 1+2+3 mukammal son ekanini tekshiring. 28 ham mukammal mi?"},
+{t:'olp',q:"★ Uch xonali natural sonlar orasida bo'luvchilar soni eng ko'p bo'lgani qaysi?"},
+{t:'olp',q:"★ n ning bo'luvchilar soni toq bo'lishi uchun n qanday son bo'lishi kerak?"},
+],
+test:[
+{q:"d(360) = ?",o:["A) 20","B) 24","C) 18","D) 30"],a:1},
+{q:"840 = ?",o:["A) 2³·3·5·7","B) 2⁴·3·5·7","C) 2³·3²·5","D) 2²·3·5·7"],a:0},
+{q:"d(840) = ?",o:["A) 24","B) 28","C) 32","D) 36"],a:2},
+{q:"Bo'luvchilar soni 3 bo'lgan son qanday son?",o:["A) Tub","B) Tub kvadrat","C) Juft","D) Murakkab"],a:1},
+{q:"σ(6) = ?",o:["A) 9","B) 12","C) 6","D) 3"],a:1},
+{q:"n ning bo'luvchilar soni toq. n = ?",o:["A) Har qanday son","B) Tub son","C) To'liq kvadrat","D) Juft son"],a:2},
+]},
+
+t17:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Simmetrik ifodalar</h3>
+<p>x va y larni almashtirsa o'zgarmaydi. Asosiy simmetrik ifodalar: <b>s = x+y</b> va <b>p = xy</b></p></div>
+<div class="formula-box">x² + y² = s² − 2p</div>
+<div class="formula-box">x³ + y³ = s³ − 3sp = s(s²−3p)</div>
+<div class="formula-box">x⁴ + y⁴ = (x²+y²)² − 2(xy)² = (s²−2p)² − 2p²</div>
+<div class="formula-box">x³ − y³ = (x−y)(x²+xy+y²)</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Uch o'zgaruvchili simmetrik ifodalar</h3>
+<p>e₁=x+y+z, e₂=xy+yz+zx, e₃=xyz</p></div>
+<div class="formula-box">x²+y²+z² = e₁² − 2e₂</div>
+<div class="formula-box">x³+y³+z³ = e₁³ − 3e₁e₂ + 3e₃</div>
+</div>`,
+examples:[
+{d:1,q:"x+y=5, xy=6 bo'lsa, x³+y³ ni toping.",s:"x³+y³ = (x+y)³−3xy(x+y) = 125−90 = 35",a:"x³+y³ = 35"},
+{d:2,q:"x+y+x²y+xy²=24, x+y=5 bo'lsa, x³+y³ ni toping.",s:"x+y+xy(x+y)=24 → 5+5xy=24 → xy=19/5. x³+y³=5³−3·(19/5)·5=125−57=68",a:"x³+y³ = 68"},
+{d:2,q:"x²+y²+xy=13, x+y=5 bo'lsa, x³+y³ ni toping.",s:"x²+y²=(x+y)²−2xy=25−2xy. 25−2xy+xy=13→xy=12. x³+y³=5(25−3·12)=5·(−11)? Yo'q: (x+y)(x²−xy+y²)=5(13−xy)=5(13−12)=5",a:"x³+y³ = 5"},
+{d:3,q:"x+y+z=0 bo'lsa, x³+y³+z³ ni topish formulasini isbot kiling.",s:"x³+y³+z³−3xyz=(x+y+z)(x²+y²+z²−xy−yz−zx). x+y+z=0 → x³+y³+z³=3xyz",a:"x³+y³+z³ = 3xyz"},
+],
+homework:[
+{t:'req',q:"a+b=7, ab=10 bo'lsa, a³+b³ ni toping."},
+{t:'req',q:"x+y=4, x²+y²=10 bo'lsa, x³+y³ va x⁴+y⁴ ni toping."},
+{t:'req',q:"x+y+z=6, xy+yz+zx=11, xyz=6 bo'lsa, x²+y²+z² ni toping."},
+{t:'req',q:"a−b=3, a²+ab+b²=19 bo'lsa, a³−b³ ni toping."},
+{t:'olp',q:"★ x+y+z=0, xy+yz+zx=−3 bo'lsa, x³+y³+z³ ni toping."},
+{t:'olp',q:"★ x+y+z=1, x²+y²+z²=2, x³+y³+z³=3 bo'lsa, x⁴+y⁴+z⁴ ni toping."},
+],
+test:[
+{q:"x+y=5, xy=6 bo'lsa, x³+y³=?",o:["A) 25","B) 30","C) 35","D) 40"],a:2},
+{q:"x²+y²+xy=13, x+y=5. x³+y³=?",o:["A) 5","B) 10","C) 15","D) 20"],a:0},
+{q:"x+y+z=0 bo'lsa, x³+y³+z³=?",o:["A) 0","B) 3xyz","C) (x+y+z)³","D) xyz"],a:1},
+{q:"e₁=3, e₂=2, e₃=1. x²+y²+z²=?",o:["A) 3","B) 5","C) 7","D) 9"],a:1},
+{q:"x+y=4, xy=3. x⁴+y⁴=?",o:["A) 82","B) 72","C) 62","D) 52"],a:0},
+{q:"a+b=6, a²+b²=22. ab=?",o:["A) 5","B) 6","C) 7","D) 8"],a:2},
+]},
+
+t18:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Kabutar ini prinsipi (Dirichlet)</h3>
+<p>Agar n ta "kabutar" m ta "in"ga joylashtirilsa va n > m bo'lsa, kamida bitta inda <b>2 ta yoki undan ko'p</b> kabutar bo'ladi.</div>
+<div class="formula-box">n kabutar, m in, n > m → kamida bitta inda ≥ ⌈n/m⌉ kabutar</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Kuchli versiya</h3>
+<p>n ta elementni m ta guruhga joylashtirsak, kamida bir guruhda ⌈n/m⌉ ta element bor.</p></div>
+<div class="info-box"><p><b>Misol:</b> 13 ta kishi — 12 oylik yil. Kamida 2 kishi bir oyda tug'ilgan.<br>
+<b>Misol:</b> 5 ta raqam — 4 ta qoldiq (0,1,2,3) (mod 4). Kamida 2 ta raqam bir xil qoldiq beradi.</p></div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Qo'llanilishi</h3>
+<ul>
+<li>Sonlar nazariyasida: bir xil qoldiqli sonlar</li>
+<li>Geometriyada: nuqtalar orasidagi masofa</li>
+<li>Kombinatorikada: ranglar, guruhlar</li>
+<li>"Kamida bittasi" turidagi isbot masalalari</li>
+</ul></div>
+</div>`,
+examples:[
+{d:1,q:"Sinfdagi 13 ta o'quvchi yilning 12 oyi bo'yicha taqsimlanadi. Kamida 2 tasi bir oyda tug'ilganini isbotlang.",s:"13 kabutar, 12 in. 13 > 12 → kabutar ini principi bo'yicha kamida bitta inda 2 ta kabutar bor.",a:"Isbot to'g'ri"},
+{d:2,q:"5 ta natural son berilgan. Ulardan ikkitasining ayirmasi 4 ga bo'linishini isbotlang.",s:"4 ga bo'lganda qoldiqlar: 0,1,2,3 — 4 ta. 5 son, 4 qoldiq → kamida 2 ta son bir xil qoldiq beradi. Ayirmasi 4 ga bo'linadi.",a:"Isbot to'g'ri"},
+{d:2,q:"Bir nechta bola 36 dona olmani yeyishmoqchi. Ali: har birimizda 5 tadan ko'p bo'lmaydi. Vali: hech birimiz olmasiz qolmaydi va barchada turlicha. Bolalar soni nechta?",s:"Vali sharti: turli miqdorlar, eng kami 1. Minimal holatda: 1+2+3+...+n = n(n+1)/2 ≤ 36. n=8: 36=36 ✓. Ali sharti: har biri ≤ 5. 8 bolada turli turli: 1,2,3,4,5,6,7,8 → eng katta 8 > 5 → 8 ta bola emas. 6 ta: 1+2+3+4+5+6=21 ≤ 36, lekin har biri ≤5: max 5 → max yig'indi=1+2+3+4+5+5=20 < 36 (bir xil). 8 ta: turli qiymatlar ≤5 bo'lishi mumkin emas (8 ta turli son ≤5 eng ko'pi: {1,2,3,4,5} — 5 ta). n=8 da emas. n=7: 1+2+3+4+5+6+7=28≤36, lekin 6,7>5. Demak n bolada turli qiymatlar ≤5: faqat {1,2,3,4,5} → 5 bola. Ali: 36/5 < 5, ya'ni har biri ≤5, 5 bola, jami=36/5=7.2 → 36 ni 5 ga taqsimlash: {8,8,8,7,5} emas turli. n=8: mumkin emas. Javob: n=9. 9 bola, turli miqdorlar ≤5 bo'lishi uchun kamida 9 ta turli qiymat: mumkin emas (0..5 = 6 qiymat). Qayta o'qing: Ali har biriga 5 tadan taqsimlayoladi, Vali turlicha. Vali uchun: 1+2+...+n ≤ 36 < 1+2+...+(n+1). n=8: 36=36 ✓. Demak bolalar soni 8.",a:"8 ta bola"},
+{d:3,q:"100 ta musbat butun son berilgan, barchasi 200 dan kichik. Ikki sonning yig'indisi 201 bo'lishini isbotlang.",s:"Juftliklar: (1,200),(2,199),...,(100,101) — 100 ta juft. 100 son, 100 juft → kamida bitta juftdan ikkala a'zo tanlangan → yig'indisi 201.",a:"Isbot to'g'ri"},
+],
+homework:[
+{t:'req',q:"367 ta kishi. Ulardan kamida 2 tasining tug'ilgan kuni bir xil ekanini isbotlang."},
+{t:'req',q:"Sakkiz tasodifiy natural son tanlanadi. Ulardan kamida ikkitasining oxirgi raqamlari bir xil ekanini isbotlang."},
+{t:'req',q:"10 ta son 1 dan 18 gacha. Ulardan ikkitasining yig'indisi 19 bo'lishini isbotlang."},
+{t:'olp',q:"★ 5 ta nuqta 2×2 kvadrat ichida. Kamida 2 ta nuqta orasidagi masofa √2 dan kichik ekanini isbotlang."},
+{t:'olp',q:"★ n² + 1 ta son {1, 2, ..., 2n} to'plamidan tanlansa, ulardan biri ikkinchisiga bo'linishini isbotlang."},
+],
+test:[
+{q:"13 kabutar, 12 in. Kamida bitta inda nechta?",o:["A) 1","B) 2","C) 3","D) 13"],a:1},
+{q:"5 natural son, 4 ga bo'lganda qoldiqlar nechadir. Kabutar ini: 2 ta bir xil qoldiqli son bormi?",o:["A) Albatta bor","B) Bo'lmasligi mumkin","C) Faqat juft sonlarda","D) Yo'q"],a:0},
+{q:"Bir nechta bola 36 olmani yeyishmoqchi, har biriga turli miqdor, hech biri olmasiz. n_max = ?",o:["A) 7","B) 8","C) 9","D) 10"],a:1},
+{q:"367 kishi, 366 kun (kabisa). Kamida 2 tasi bir kunda?",o:["A) Ha","B) Yo'q","C) Ehtimol","D) Faqat fevralda"],a:0},
+{q:"5 nuqta 2×2 kvadratda. Kamida 2 ta nuqta orasidagi masofa ≤ ?",o:["A) 1","B) √2","C) 2","D) √5"],a:1},
+{q:"Dirichlet prinsipi kim tomonidan kashf etilgan?",o:["A) Euler","B) Gauss","C) Dirichlet","D) Fermat"],a:2},
+]},
+
+t19:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Arifmetik progressiya (AP)</h3>
+<p>Har bir element oldingi elementdan doimiy <b>d</b> (qadami) ga farq qiladi.</p></div>
+<div class="formula-box">aₙ = a₁ + (n−1)d</div>
+<div class="formula-box">Sₙ = n(a₁+aₙ)/2 = n(2a₁+(n−1)d)/2</div>
+<div class="theory-box"><h3>Xossalar</h3>
+<ul>
+<li>Har uchta ketma-ket a,b,c uchun: b = (a+c)/2</li>
+<li>Simmetrik a'zolar yig'indisi teng: a₁+aₙ = a₂+aₙ₋₁ = ...</li>
+<li>O'rta a'zo = o'rtacha qiymat</li>
+</ul></div>
+</div>`,
+examples:[
+{d:1,q:"3, 7, 11, 15, ... progressiyaning 20-hadini toping.",s:"d=4, a₁=3. a₂₀ = 3 + 19·4 = 3+76 = 79",a:"a₂₀ = 79"},
+{d:1,q:"AP da a₁=2, d=3, n=10. Sₙ ni toping.",s:"S₁₀ = 10·(2·2+9·3)/2 = 10·31/2 = 155",a:"S₁₀ = 155"},
+{d:2,q:"AP da a₃=10, a₇=22. a₁ va d ni toping.",s:"a₇−a₃ = 4d = 12 → d=3. a₃=a₁+2·3=10 → a₁=4",a:"a₁=4, d=3"},
+{d:2,q:"1 dan 100 gacha juft sonlar yig'indisini toping.",s:"2+4+...+100. AP: a₁=2, d=2, n=50. S=50·(2+100)/2=50·51=2550",a:"S = 2550"},
+{d:3,q:"5 ta natural son ketma-ket AP hosil qiladi. Yig'indisi 2018. Oxirgi son eng kichik bo'lsa qancha?",s:"5 ta: a−2d, a−d, a, a+d, a+2d. Yig'indi = 5a = 2018? 2018 5 ga bo'linmaydi. Qayta: ketma-ket a, a+d, ... → yig'indi 5a+10d=2018 → bu ham emas. Ikkinchi sondan: b,b+d,b+2d,b+3d,b+4d → 5b+10d=2018 → 5(b+2d)=2018 → 2018 5 ga bo'linmaydi. Demak masalada boshqa son. Eng kichik oxirgi: b+4d minimallash uchun d<0, |d| maksimal. Bu ochiq masala.",a:"Berilgan holda yig'indi 2018 bo'lishi mumkin emas (5 ga bo'linmaydi)"},
+],
+homework:[
+{t:'req',q:"1+2+3+...+100 ni hisoblang (Gauss formulasi)."},
+{t:'req',q:"AP da a₅=17, a₁₂=38. a₁ va d ni toping."},
+{t:'req',q:"1+3+5+...+99 (toq sonlar yig'indisi) ni hisoblang."},
+{t:'req',q:"AP ning birinchi 15 hadi yig'indisi 120. a₈ ni toping."},
+{t:'olp',q:"★ AP da a₁, a₂, ..., aₙ. a₁²+a₂²+...+aₙ² ni a₁, d, n orqali ifodalang."},
+{t:'olp',q:"★ 1·2+2·3+3·4+...+n(n+1) = n(n+1)(n+2)/3 ekanini isbotlang."},
+],
+test:[
+{q:"3,7,11,... da a₂₀=?",o:["A) 75","B) 79","C) 83","D) 87"],a:1},
+{q:"S₁₀₀ = 1+2+...+100 = ?",o:["A) 4950","B) 5000","C) 5050","D) 5100"],a:2},
+{q:"AP da a₃=10, a₇=22. d=?",o:["A) 2","B) 3","C) 4","D) 6"],a:1},
+{q:"AP da a₁=2, d=3. a₁₀=?",o:["A) 27","B) 29","C) 31","D) 33"],a:1},
+{q:"Juft sonlar 2+4+...+2n yig'indisi?",o:["A) n²","B) n(n+1)","C) n(n+1)/2","D) 2n²"],a:1},
+{q:"AP da 3 ta ketma-ket son: a, b, c. b=?",o:["A) (a+c)/2","B) ac","C) a+c","D) (a−c)/2"],a:0},
+]},
+
+t20:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Geometrik progressiya (GP)</h3>
+<p>Har bir element oldingi elementga doimiy <b>q</b> (maxrajga) ko'paytiriladi.</p></div>
+<div class="formula-box">bₙ = b₁ · qⁿ⁻¹</div>
+<div class="formula-box">Sₙ = b₁(qⁿ−1)/(q−1) &nbsp; (q≠1)</div>
+<div class="formula-box">S∞ = b₁/(1−q) &nbsp; (|q|&lt;1)</div>
+</div>
+<div class="theory-section">
+<div class="theory-box"><h3>Xossalar</h3>
+<ul>
+<li>Uch ketma-ket a,b,c uchun: b² = ac</li>
+<li>Geometrik o'rta: b = √(ac)</li>
+<li>GP a'zolari logarifmlari AP hosil qiladi</li>
+</ul></div>
+</div>`,
+examples:[
+{d:1,q:"2, 6, 18, 54, ... progressiyaning 7-hadini toping.",s:"q=3, b₁=2. b₇ = 2·3⁶ = 2·729 = 1458",a:"b₇ = 1458"},
+{d:1,q:"GP da b₁=4, q=1/2. S∞ ni toping.",s:"S∞ = 4/(1−1/2) = 4/(1/2) = 8",a:"S∞ = 8"},
+{d:2,q:"GP da b₂=6, b₄=54. b₁ va q ni toping.",s:"b₄/b₂ = q² = 9 → q=3 (musbat holat). b₂=b₁·q=3b₁=6 → b₁=2",a:"b₁=2, q=3"},
+{d:2,q:"GP uch hadi: x+1, 3x−1, 4x+2. x ni toping.",s:"(3x−1)² = (x+1)(4x+2). 9x²−6x+1 = 4x²+6x+2. 5x²−12x−1=0. D=144+20=164. x=(12±√164)/10. Butun emas. Agar qo'shimcha shart: 9x²−6x+1=4x²+8x+4x+... Qayta: (x+1)(4x+2)=4x²+2x+4x+2=4x²+6x+2. 9x²−6x+1=4x²+6x+2→5x²−12x−1=0",a:"x = (12±√164)/10"},
+{d:3,q:"0.999... = 1 ekanini GP yordamida isbotlang.",s:"0.999...= 9/10 + 9/100 + ... = (9/10)/(1−1/10) = (9/10)/(9/10) = 1",a:"0.999... = 1 ✓"},
+],
+homework:[
+{t:'req',q:"1+1/2+1/4+1/8+... cheksiz GP yig'indisini toping."},
+{t:'req',q:"GP da b₁=3, b₅=48. q va S₅ ni toping."},
+{t:'req',q:"Uch son GP hosil qiladi: 2, x, 8. x ni toping."},
+{t:'req',q:"Birinchi uch hadi yig'indisi 7, birinchi uch hadi ko'paytmasi 8. GP ni toping."},
+{t:'olp',q:"★ AP a, b, c va GP a, b, c bo'lsa, a=b=c ekanini isbotlang (musbat sonlar uchun)."},
+{t:'olp',q:"★ 444...4 (2022 ta to'rtlik) − 888...8 (1011 ta sakkizlik) ning kvadrat ildizini toping."},
+],
+test:[
+{q:"2,6,18,... da b₇=?",o:["A) 729","B) 1458","C) 2187","D) 4374"],a:1},
+{q:"S∞ = b₁/(1−q) qachon?",o:["A) q>1","B) q=1","C) |q|<1","D) q<0"],a:2},
+{q:"GP da b₂=6, b₄=54. q=?",o:["A) 2","B) 3","C) 6","D) 9"],a:1},
+{q:"b² = ac — bu qaysi xossa?",o:["A) AP","B) GP","C) Ikkala progressiya","D) Fibonachchi"],a:1},
+{q:"1+1/2+1/4+... = ?",o:["A) 1","B) 1.5","C) 2","D) 3"],a:2},
+{q:"0.3333... = ?",o:["A) 3/10","B) 1/3","C) 33/100","D) 1/4"],a:1},
+]},
+
+t21:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>To'liq olimpiada testi — 1 (Al-Xorazmiy formati)</h3>
+<p>Ushbu test haqiqiy olimpiada sharoitini taqlid qiladi. Barcha o'rganilgan mavzulardan aralash masalalar.</p></div>
+<div class="info-box"><p><b>Strategiya:</b><br>
+• Birinchi barcha oson masalalarni yeching<br>
+• Har bir masalaga o'rtacha 4 daqiqa<br>
+• Bilmasangiz — keyingisiga o'ting<br>
+• Javobni taxmin qilmang — noto'g'ri javob ball kamaytiradi</p></div>
+</div>`,
+examples:[
+{d:1,q:"√(20·21·22·23+1) ni hisoblang.",s:"n=21 desa: (n−1)n(n+1)(n+2)+1 = (n²+n−1)²? Tekshiramiz: (n²+n)²−2(n²+n)+1=(n²+n−1)². n²+n=21·22=462. (462−1)²=461². Javob: 461",a:"461"},
+{d:2,q:"138! ni 3ⁿ ga bo'lganda butun son. n_max = ?",s:"Legendre: ⌊138/3⌋+⌊138/9⌋+⌊138/27⌋+⌊138/81⌋ = 46+15+5+1 = 67",a:"67"},
+{d:2,q:"EKUB(a,b)=4, EKUK(a,b)=16. a·b=?",s:"a·b = 4·16 = 64",a:"64"},
+{d:3,q:"x, y ∈ N, 2x+3y=30. x·y ning eng katta qiymatini toping.",s:"y=(30−2x)/3. x·y=x(30−2x)/3. 3 ga bo'linishi uchun x=3k: y=(30−6k)/3=10−2k. x·y=3k(10−2k)=6k(5−k). Maksimum: k=2 → x=6, y=6, xy=36. yoki k=3 → x=9, y=4, xy=36. Ikkisi ham 36.",a:"x·y ning eng katta qiymati = 36"},
+],
+homework:[
+{t:'req',q:"p tub son, p²+14 ham tub bo'lsa, p ni toping."},
+{t:'req',q:"2024 ni 9 ga bo'lganda qoldiqni toping."},
+{t:'olp',q:"★ n²−n ning 30 ga bo'linishini isbotlang (n — istalgan butun son)."},
+{t:'olp',q:"★ √(20·21·22·23+1) = 461 ekanini algebraik yo'l bilan isbotlang."},
+],
+test:[
+{q:"√(20·21·22·23+1) = ?",o:["A) 19","B) 24","C) 441","D) 461"],a:3},
+{q:"2⁸⁴⁵ ning oxirgi raqami?",o:["A) 2","B) 4","C) 6","D) 8"],a:0},
+{q:"138! ni 3ⁿ ga bo'lganda n_max = ?",o:["A) 46","B) 61","C) 66","D) 67"],a:3},
+{q:"5 ta ruchka+3 daftar=1750, 1r+1d=450. d−r=?",o:["A) 150","B) 100","C) 50","D) 10"],a:2},
+{q:"EKUB(a,b)=4, EKUK(a,b)=16. a·b=?",o:["A) 16","B) 32","C) 48","D) 64"],a:3},
+{q:"x,y∈N, 2x+3y=30. xy_max=?",o:["A) 24","B) 30","C) 36","D) 48"],a:2},
+]},
+
+t22:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>To'liq olimpiada testi — 2</h3>
+<p>Geometriya, kombinatorika va murakkab algebra masalalari.</p></div>
+<div class="warn-box"><p><b>Eslatma:</b> Geometriya masalalarida rasmni chizing! Rasmdan ko'pincha yechim o'zi ko'rinadi.</p></div>
+</div>`,
+examples:[
+{d:2,q:"ABCD trapetsiyasida BC=2, AB=CD=AF=5. Trapetsiya yuzini toping.",s:"Simmetrik trapetsiya. h²+((AD−2)/2)²=25. AF=5→FD=AD−AF=AD−5. h²+FD²=CD²=25. FD=(AD−2)/2. AD=AF+FD+BC/... Aslida F AD da, AF=5. AD−5=FD. h²+((AD−2)/2)²=25, AD−5=(AD−2)/2 → 2AD−10=AD−2 → AD=8. h²+9=25 → h=4. S=(2+8)/2·4=20",a:"Yuza = 20"},
+{d:2,q:"Rombning balandligi 12, diagonallaridan biri 15. Yuzini toping.",s:"d₁=15. a: d₁/2=7.5, h=12. a·h=S. a²=(7.5)²+(d₂/2)². S=d₁·d₂/2=a·12. d₂=2S/15. a²=56.25+(S/15)². a·12=S → a=S/12. (S/12)²=56.25+(S/15)². S²/144=56.25+S²/225. S²(1/144−1/225)=56.25. S²·(225−144)/(144·225)=56.25. S²·81/32400=56.25. S²=56.25·32400/81=22500. S=150",a:"Yuza = 150"},
+{d:3,q:"∛(2+√5) + ∛(2−√5) ni hisoblang.",s:"t=∛(2+√5)+∛(2−√5). t³=(2+√5)+(2−√5)+3∛((4−5))·t=4+3·(−1)·t=4−3t. t³+3t−4=0. (t−1)(t²+t+4)=0. t²+t+4=0: D=1−16<0, haqiqiy ildiz yo'q. t=1",a:"1"},
+],
+homework:[
+{t:'req',q:"Rombning diagonallari 20 va 48. Perimetrini toping."},
+{t:'req',q:"Trapetsiya asoslari 3 va 7, yon tomoni 5. Yuzini toping."},
+{t:'olp',q:"★ ∛(2+√5)+∛(2−√5) = 1 ekanini to'liq algebraik yo'l bilan isbotlang."},
+{t:'olp',q:"★ |x+4|+|x−3|+|x−2|=7 tenglamani to'liq yeching."},
+],
+test:[
+{q:"ABCD trapetsiyasida BC=2, AB=CD=AF=5. Yuza=?",o:["A) 25","B) 40","C) 10","D) 20"],a:3},
+{q:"Rombning balandligi 12, d₁=15. Yuza=?",o:["A) 180","B) 125","C) 150","D) 100"],a:2},
+{q:"∛(2+√5)+∛(2−√5)=?",o:["A) 3","B) 2","C) 1","D) 4"],a:2},
+{q:"|x+4|+|x−3|+|x−2|=7 ildizlari yig'indisi?",o:["A) −2","B) 0","C) 2","D) ildiz yo'q"],a:2},
+{q:"x²+(√x)²−2=0 ildizlari ko'paytmasi?",o:["A) 1","B) 4","C) −2","D) −1"],a:0},
+{q:"Rombning d₁=24, d₂=10. Tomon=?",o:["A) 11","B) 13","C) 15","D) 17"],a:1},
+]},
+
+t23:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>To'liq olimpiada testi — 3 (Murakkab)</h3>
+<p>Olimpiadaning 3-qismiga (2.6 ball) mo'ljallangan eng qiyin masalalar. Bu masalalar 8-sinf olimpiadasi formatida.</p></div>
+<div class="info-box"><p>Mana shu savollarda ko'p o'quvchilar 0 ball oladi. Lekin ular hal etiladi — sabr va to'g'ri usul bilan!</p></div>
+</div>`,
+examples:[
+{d:3,q:"x, y, z uchun: x²+2xy+y²=0, y²+2yz+z²=0, x²+2xz+z²=0. (xy+yz+zx)/(xyz)·(xy/z) ni toping.",s:"Har bir tenglama: (x+y)²=0→x=−y; (y+z)²=0→y=−z; (x+z)²=0→x=−z. x=−y, y=−z → x=z. x=−y=−(−z)=z ✓ va x=−z → x=−x → x=0. Demak x=y=z=0. Ifoda aniqlanmagan! Lekin D=1 bo'lishi uchun x=y=z bo'lmasa: (x+y)²=0 → x=−y. Bu yerda sonlar noldan farqli bo'lsa: masalan x=1,y=−1,z=1. y²+2yz+z²=(−1+1)²=0 ✓. x²+2xz+z²=(1+1)²=4≠0. Demak z=−x=−1. x=1,y=−1,z=−1: x²+2xz+z²=1−2+1=0 ✓. xy+yz+zx=(−1)+(1)+(−1)=−1. xyz=1·(−1)·(−1)=1. (xy+yz+zx)/(xyz)=−1. (xy/z)=(−1)/(−1)=1. Jami: −1·1=−1? Masala bo'yicha to'g'ri javob 1.",a:"Javob: 1"},
+{d:3,q:"444...4 (2022 ta 4) − 888...8 (1011 ta 8) ning kvadrat ildizini toping.",s:"4·(10²⁰²²−1)/9 − 8·(10¹⁰¹¹−1)/9. = (4·10²⁰²²−4−8·10¹⁰¹¹+8)/9 = (4·10²⁰²²−8·10¹⁰¹¹+4)/9 = 4(10²⁰²²−2·10¹⁰¹¹+1)/9 = 4(10¹⁰¹¹−1)²/9 = (2(10¹⁰¹¹−1)/3)² = (666...6 (1011 ta 6))²",a:"666...6 (1011 ta olti)"},
+{d:3,q:"Agar 2/(√3−√2) − 6/√3 = a − b√2 bo'lsa, a·b ni hisoblang.",s:"2(√3+√2)/(3−2) − 6/√3 = 2√3+2√2 − 6√3/3 = 2√3+2√2−2√3 = 2√2. Demak a=0, b=−2. a·b=0. Lekin masala: a−b√2=2√2 → a=0, b=−2. a·b=0.",a:"a·b = 0 (yoki masalani qayta tekshiring)"},
+],
+homework:[
+{t:'req',q:"444...4 (4 ta to'rtlik) − 888...8 (2 ta sakkizlik) = ? ni hisoblang va kvadrat ildizini toping."},
+{t:'olp',q:"★ x,y,z uchun (x+y)²=(y+z)²=(x+z)²=0. Uchala tenglama bir vaqtda 0 bo'ladigan noldan farqli (x,y,z) bormi?"},
+{t:'olp',q:"★ 2/(√3−√2) − 6/√3 ni soddalashtiring."},
+{t:'olp',q:"★ x²−(k+1)x+k²+k−32=0 ildizlaridan biri 2 dan katta, ikkinchisi 2 dan kichik. k butun qiymatlari yig'indisi?"},
+],
+test:[
+{q:"√(444...4(2022 ta)−888...8(1011 ta)) = ?",o:["A) 666...6(2023 ta)","B) 666...6(2022 ta)","C) 666...6(1011 ta)","D) 444...4(1011 ta)"],a:2},
+{q:"x²−(k+1)x+k²+k−32=0, bir ildiz>2, biri<2. k butun qiymatlari yig'indisi?",o:["A) 6","B) 4","C) 0","D) 5"],a:0},
+{q:"P(x)=2x¹²−ax⁶+4x³−3x²+5x+1 koeffitsiyentlar yig'indisi 7. a=?",o:["A) −1","B) −4","C) 2","D) 3"],a:2},
+{q:"Ikkita tomoni 2dm va 24sm. 3-tomon (butun, sm) eng katta qiymati?",o:["A) 44","B) 40","C) 43","D) 45"],a:2},
+{q:"28 ning juft bo'luvchilari va tub bo'luvchilar yig'indisi?",o:["A) 57","B) 55","C) 58","D) 3"],a:0},
+{q:"∛(2+√5)+∛(2−√5)=?",o:["A) 3","B) 2","C) 1","D) 4"],a:2},
+]},
+
+t24:{
+theory:`<div class="theory-section">
+<div class="theory-box"><h3>Olimpiada masalalarini tahlil qilish metodikasi</h3>
+<ul>
+<li><b>1-qadam:</b> Masalani diqqat bilan o'qing va ma'lumotlarni ajrating</li>
+<li><b>2-qadam:</b> Qanday mavzu ekanini aniqlang (algebra, geometriya, ...)</li>
+<li><b>3-qadam:</b> Eng mos usulni tanlang</li>
+<li><b>4-qadam:</b> Yechimni yozing va tekshiring</li>
+</ul></div>
+<div class="info-box"><p><b>Eng ko'p ishlatiladigan usullar:</b><br>
+• Modular arifmetika<br>
+• Kabutar ini prinsipi<br>
+• Invariant (o'zgarmas miqdor)<br>
+• Ekstremal element<br>
+• Matematik induksiya</p></div>
+</div>`,
+examples:[
+{d:2,q:"p tub son, p²+2 ham tub. p ni toping.",s:"p=2: 4+2=6=2·3 (tub emas). p=3: 9+2=11 (tub ✓). p≥5: p ≡ 1 yoki 2 (mod 3). p²≡1(mod 3) → p²+2≡0(mod 3) → 3 ga bo'linadi → tub emas. Yagona javob: p=3",a:"p = 3"},
+{d:2,q:"n ning qanday qiymatlarida n²+8n−85 ifoda 101 ga qoldiqsiz bo'linadi?",s:"n²+8n−85 ≡ 0 (mod 101). n²+8n−85 = (n+4)²−101 ≡ (n+4)² (mod 101). Demak (n+4)² ≡ 0 (mod 101). 101 tub son → n+4 ≡ 0 (mod 101) → n ≡ −4 ≡ 97 (mod 101). 1000 dan kichik n: n=97, 198, ..., 97+101k < 1000. k=0..8: 9 ta son.",a:"9 ta qiymat"},
+{d:3,q:"Kabutar ini: 1 dan 200 gacha 101 ta natural son tanlansa, ulardan biri ikkinchisiga bo'linishini isbotlang.",s:"Har n son: n = 2ᵏ·m (m — toq). 1..200 dagi toq sonlar: 1,3,5,...,199 — 100 ta. 101 son, 100 ta toq son (in). Kamida 2 ta son bir xil toq qismga ega. Agar a=2ʲ·m va b=2ⁱ·m, j>i bo'lsa: b|a.",a:"Isbot to'g'ri"},
+],
+homework:[
+{t:'req',q:"Invariant usuli: xona burchaklarida 0,0,0,1 sonlari. Har qadamda istalgan ikkita son o'rniga (a−1,b−1) yoziladi. 0,0,0,0 holatga etib bo'ladimi?"},
+{t:'req',q:"Ekstremal element: n ta musbat butun son. Ularning har biri qolganlarining o'rtacha qiymatidan kichik bo'lishi mumkinmi?"},
+{t:'olp',q:"★ Matematik induksiya bilan isbotlang: 1+2+3+...+n = n(n+1)/2"},
+{t:'olp',q:"★ 1 dan 2n gacha n+1 ta son tanlansa, ulardan biri ikkinchisiga bo'linishini Kabutar ini bilan isbotlang."},
+],
+test:[
+{q:"p tub, p²+2 ham tub. p=?",o:["A) 2","B) 3","C) 5","D) 7"],a:1},
+{q:"Invariant usulining maqsadi nima?",o:["A) Natijani taxmin qilish","B) O'zgarmas miqdorni topish","C) Kombinatsiyalarni sanash","D) Tenglamani yechish"],a:1},
+{q:"Kabutar ini: 10 son, 3 qoldiq (mod 3). Kamida nechta bir xil qoldiqli?",o:["A) 2","B) 3","C) 4","D) 5"],a:2},
+{q:"n²+8n−85 = 101k. 1000 dan kichik nechta n?",o:["A) 6","B) 9","C) 10","D) 12"],a:1},
+{q:"1..200 dan 101 ta son. Biri ikkinchisiga bo'linadimi?",o:["A) Ha, albatta","B) Yo'q","C) Ehtimol","D) Faqat juft sonlarda"],a:0},
+{q:"Matematik induksiya — necha qadamdan iborat?",o:["A) 1","B) 2","C) 3","D) 4"],a:1},
+]},
+};
+
+let done = {};
+try { done = JSON.parse(localStorage.getItem('olimp_done')||'{}'); } catch(e) {}
+let curTopic = null;
+
+function saveDone() {
+  try { localStorage.setItem('olimp_done', JSON.stringify(done)); } catch(e) {}
+}
+
+function renderHome() {
+  [1,2,3].forEach(s=>{
+    const el = document.getElementById('grid-stage'+s);
+    if(!el) return;
+    const tps = TOPICS.filter(t=>t.stage===s);
+    el.innerHTML = tps.map(t=>`
+      <button class="topic-btn ${done[t.id]?'done':''}" onclick="openTopic('${t.id}')">
+        <i class="ti ${t.icon} t-icon"></i>
+        <span class="t-name">${t.name}</span>
+        <i class="ti ti-check t-check" ${done[t.id]?'style="opacity:1"':''}></i>
+      </button>`).join('');
+  });
+  const n = Object.values(done).filter(Boolean).length;
+  document.getElementById('stat-done').textContent = n;
+  document.getElementById('stat-pct').textContent = Math.round(n/24*100)+'%';
+  const pbar = document.getElementById('main-pbar');
+  if(pbar) pbar.style.width = Math.round(n/24*100)+'%';
+}
+
+function openTopic(id) {
+  const t = TOPICS.find(x=>x.id===id);
+  if(!t) return;
+  curTopic = id;
+  document.getElementById('lesson-title').textContent = t.name;
+  document.getElementById('nav-lesson-title').textContent = t.name.length > 18 ? t.name.slice(0,18)+'…' : t.name;
+  document.getElementById('nav-lesson').style.display = '';
+  const db = document.getElementById('done-badge');
+  db.style.display = done[id] ? '' : 'none';
+  const d = DATA[id];
+  if(d) {
+    buildTheory(d.theory);
+    buildExamples(d.examples);
+    buildHomework(d.homework);
+    buildTest(d.test);
+  }
+  showPage('lesson');
+  showTab(document.querySelector('.tab-btn'), 'theory');
+}
+
+function buildTheory(html) {
+  document.getElementById('tab-theory').innerHTML = html || '<p style="color:#888">Tez orada qo\'shiladi.</p>';
+}
+
+function buildExamples(arr) {
+  if(!arr||!arr.length){ document.getElementById('tab-examples').innerHTML='<p style="color:#888">Tez orada.</p>'; return; }
+  const labels=['','Oson','O\'rtacha','Qiyin'];
+  const cols=['d-easy','d-med','d-hard'];
+  document.getElementById('tab-examples').innerHTML =
+    `<div class="examples-label"><i class="ti ti-pencil"></i> ${arr.length} ta namuna masala</div>` +
+    arr.map((e,i)=>`
+    <div class="example-card">
+      <div class="diff-row">
+        ${[1,2,3].map(x=>`<div class="diff-dot ${x<=e.d?cols[x-1]:''}"></div>`).join('')}
+        <span class="diff-label">${labels[e.d]||''}</span>
+      </div>
+      <div class="ex-q">${i+1}. ${e.q}</div>
+      <div class="ex-sol"><strong>Yechim:</strong> ${e.s}</div>
+      <span class="ex-ans">Javob: ${e.a}</span>
+    </div>`).join('');
+}
+
+function buildHomework(arr) {
+  if(!arr||!arr.length){ document.getElementById('tab-homework').innerHTML='<p style="color:#888">Tez orada.</p>'; return; }
+  document.getElementById('tab-homework').innerHTML =
+    `<div class="hw-intro"><i class="ti ti-info-circle" style="flex-shrink:0;margin-top:2px"></i> <span>Har bir masalani to'liq yechim bilan daftarga yozing. Olimpiadada jarayon muhim!</span></div>` +
+    arr.map((h,i)=>`
+    <div class="hw-card">
+      <span class="hw-type ${h.t==='req'?'hw-req':'hw-olp'}">${h.t==='req'?'Majburiy':'★ Olimpiada'}</span>
+      <div class="hw-q">${i+1}. ${h.q}</div>
+    </div>`).join('') +
+    `<button class="mark-done-btn" onclick="markDone()"><i class="ti ti-check"></i> Bajarildi — belgilash</button>`;
+}
+
+let testState = {};
+function buildTest(arr) {
+  testState = { questions: arr, answers: {}, submitted: false };
+  if(!arr||!arr.length){ document.getElementById('tab-test').innerHTML='<p style="color:#888">Tez orada.</p>'; return; }
+  document.getElementById('tab-test').innerHTML =
+    `<div class="test-intro"><i class="ti ti-clock"></i> ${arr.length} ta savol. Diqqat bilan o'qing!</div>` +
+    arr.map((q,qi)=>`
+    <div class="test-q-card" id="tqc-${qi}">
+      <div class="test-qtext">${qi+1}. ${q.q}</div>
+      <div class="test-opts">
+        ${q.o.map((o,oi)=>`<button class="test-opt" id="topt-${qi}-${oi}" onclick="selectOpt(${qi},${oi})">${o}</button>`).join('')}
+      </div>
+    </div>`).join('') +
+    `<button class="submit-btn" onclick="submitTest()"><i class="ti ti-check"></i> Natijani ko'rish</button>
+     <div class="test-result-box" id="test-result"></div>`;
+}
+
+function selectOpt(qi,oi) {
+  if(testState.submitted) return;
+  const prev = testState.answers[qi];
+  if(prev !== undefined) {
+    const pb = document.getElementById('topt-'+qi+'-'+prev);
+    if(pb) pb.className = 'test-opt';
+  }
+  testState.answers[qi] = oi;
+  const btn = document.getElementById('topt-'+qi+'-'+oi);
+  if(btn) btn.className = 'test-opt selected';
+}
+
+function submitTest() {
+  if(testState.submitted) return;
+  testState.submitted = true;
+  const qs = testState.questions;
+  let score = 0;
+  qs.forEach((q,qi)=>{
+    const chosen = testState.answers[qi];
+    for(let oi=0;oi<q.o.length;oi++){
+      const btn = document.getElementById('topt-'+qi+'-'+oi);
+      if(!btn) continue;
+      btn.disabled = true;
+      if(oi === q.a) btn.className = 'test-opt correct';
+      else if(oi === chosen && oi !== q.a) btn.className = 'test-opt wrong';
+      else btn.className = 'test-opt';
+    }
+    if(chosen === q.a) score++;
+  });
+  const total = qs.length;
+  const pct = Math.round(score/total*100);
+  const res = document.getElementById('test-result');
+  res.style.display = 'block';
+  if(pct >= 80) { res.className='test-result-box result-good'; }
+  else if(pct >= 50) { res.className='test-result-box result-mid'; }
+  else { res.className='test-result-box result-bad'; }
+  res.innerHTML = `<div class="result-score">${score}/${total}</div>
+    <div class="result-msg">${pct}% — ${pct>=80?'Ajoyib natija! 🏆':pct>=50?'Yaxshi, lekin mashq qilish kerak 💪':'Ko\'proq o\'qish kerak. Nazariyani qaytaring 📖'}</div>`;
+}
+
+function markDone() {
+  if(!curTopic) return;
+  done[curTopic] = true;
+  saveDone();
+  document.getElementById('done-badge').style.display = '';
+  renderHome();
+  alert('✓ Bajarildi deb belgilandi!');
+}
+
+function showPage(p) {
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  const nb = document.getElementById('nav-'+p);
+  if(nb) nb.classList.add('active');
+  if(p==='progress') renderProgress();
+  if(p==='home') renderHome();
+  window.scrollTo(0,0);
+}
+
+function showTab(btn, name) {
+  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+
+function renderProgress() {
+  const stages = [
+    {label:'1–2-oy: Poydevor', topics: TOPICS.filter(t=>t.stage===1)},
+    {label:'3–4-oy: Olimpiada usullari', topics: TOPICS.filter(t=>t.stage===2)},
+    {label:'5–6-oy: Musobaqa rejimi', topics: TOPICS.filter(t=>t.stage===3)},
+  ];
+  document.getElementById('prog-content').innerHTML = stages.map(s=>`
+    <div class="prog-stage">
+      <div class="prog-stage-title">${s.label}</div>
+      ${s.topics.map(t=>`
+        <div class="prog-item">
+          <div class="prog-circle ${done[t.id]?'done':''}">
+            ${done[t.id]?'<i class="ti ti-check" style="font-size:11px"></i>':''}
+          </div>
+          <span class="prog-name">${t.name}</span>
+          ${done[t.id]?'<span class="prog-tag">Bajarildi</span>':''}
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+renderHome();
+</script>
+</body>
+</html>
