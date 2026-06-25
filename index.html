@@ -253,59 +253,120 @@ const TOPICS = [
 ];
 
 const DATA = {
-t1:{
-theory:`<div class="theory-section">
-<div class="theory-box"><h3>Asosiy ta'rif</h3>
-<p>Har qanday <b>a</b> butun sonni natural <b>b</b> songa bo'lganda yagona <b>q</b> va <b>r</b> sonlar mavjud:</p></div>
-<div class="formula-box">a = b · q + r &nbsp;&nbsp; (0 ≤ r &lt; b)</div>
-<div class="theory-box"><p><b>a</b> — bo'linuvchi &nbsp;|&nbsp; <b>b</b> — bo'luvchi &nbsp;|&nbsp; <b>q</b> — bo'linma &nbsp;|&nbsp; <b>r</b> — qoldiq</p>
-<p style="margin-top:6px">Misol: 47 = 6·7 + <b>5</b> → 47 ni 6 ga bo'lganda qoldiq 5</p></div>
-</div>
-<div class="theory-section">
-<div class="theory-box"><h3>Muhim xossalar</h3>
-<ul>
-<li>(a + b) ni n ga bo'lganda qoldiq = (aₙ + bₙ) ni n ga bo'lganda qoldiq, bu yerda aₙ va bₙ — mos qoldiqlar</li>
-<li>(a · b) ni n ga bo'lganda qoldiq = (aₙ · bₙ) ni n ga bo'lganda qoldiq</li>
-<li>a ≡ r (mod n) degani: a ni n ga bo'lganda qoldiq r</li>
-</ul></div>
-</div>
-<div class="theory-section">
-<div class="theory-box"><h3>Shartli bo'linish masalalari</h3>
-<p>a ≡ r (mod m) va a ≡ r (mod n) bo'lsa:</p></div>
-<div class="formula-box">a = EKUK(m, n) · k + r</div>
-<div class="info-box"><p><b>Masalan:</b> 5 ga va 7 ga bo'lganda 3 qoldiq qoladigan eng kichik son:<br>
-EKUK(5,7) = 35 → son = 35·1 + 3 = <b>38</b></p></div>
-</div>
-<div class="theory-section">
-<div class="theory-box"><h3>Raqamlar yig'indisi (9 va 3 ga bo'linish)</h3>
-<p>Son 9 ga bo'linsa — raqamlari yig'indisi 9 ga bo'linadi.<br>
-Son 3 ga bo'linsa — raqamlari yig'indisi 3 ga bo'linadi.<br>
-Son 11 ga bo'linsa — juft va toq o'rindagi raqamlar ayirmasi 11 ga bo'linadi.</p></div>
-</div>`,
-examples:[
-{d:1,q:"2024 sonini 7 ga bo'lgandagi qoldiqni toping.",s:"2024 = 7 · 289 + 1 → 7 · 289 = 2023, 2024 − 2023 = 1",a:"Qoldiq = 1"},
-{d:1,q:"3 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 3 qoldiq qoladigan eng kichik natural sonni toping.",s:"EKUK(3,5) = 15. Son = 15k + r. r=2 uchun: 3 ga bo'lganda 2 ✓, 5 ga bo'lganda: 2 mod 5 = 2 ≠ 3. r=8: 8 mod 3=2 ✓, 8 mod 5=3 ✓. Son = 8",a:"Son = 8"},
-{d:2,q:"n ni 6 ga bo'lganda qoldiq 5. n² ni 6 ga bo'lganda qoldiq nechaga teng?",s:"n ≡ 5 (mod 6) → n² ≡ 5² = 25 (mod 6) → 25 = 6·4 + 1 → qoldiq 1",a:"Qoldiq = 1"},
-{d:2,q:"5 ga ham, 7 ga ham, 10 ga ham bo'lganda 4 qoldiq qoladigan eng kichik sonni toping.",s:"EKUK(5,7,10) = 70. Son = 70k + 4. k=1: son = 74. Tekshiruv: 74 mod 5=4 ✓, 74 mod 7=4 ✓, 74 mod 10=4 ✓",a:"Son = 74"},
-{d:3,q:"a ≡ 3 (mod 5), b ≡ 4 (mod 5) bo'lsa, a² + b² ni 5 ga bo'lgandagi qoldiqni toping.",s:"a² ≡ 3² = 9 ≡ 4 (mod 5). b² ≡ 4² = 16 ≡ 1 (mod 5). a²+b² ≡ 4+1 = 5 ≡ 0 (mod 5)",a:"Qoldiq = 0"},
-],
-homework:[
-{t:'req',q:"4¹⁰⁰ + 6¹⁰⁰ ning oxirgi raqamini toping. (Maslahat: 4ⁿ va 6ⁿ ning oxirgi raqamlarini aniqlang)"},
-{t:'req',q:"3 ga bo'lganda 1 qoldiq, 4 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 3 qoldiq qoladigan eng kichik natural sonni toping."},
-{t:'req',q:"n ni 7 ga bo'lganda qoldiq 4. n³ ni 7 ga bo'lganda qoldiq necha?"},
-{t:'req',q:"2025 yili yanvar 1 — seshanba. 2025 yilning 200-kuni haftaning qaysi kuniga to'g'ri keladi?"},
-{t:'olp',q:"★ 1² + 2² + 3² + ... + 2024² ni 4 ga bo'lgandagi qoldiqni toping."},
-{t:'olp',q:"★ a ni 11 ga bo'lganda qoldiq 7 bo'lsa, 3a + 5 va a² − 2a + 1 ni 11 ga bo'lgandagi qoldiqlarni toping."},
-],
-test:[
-{q:"47 ni 6 ga bo'lganda qoldiq necha?",o:["A) 3","B) 4","C) 5","D) 6"],a:2},
-{q:"5 ga ham 7 ga ham 10 ga ham bo'lganda 4 qoldiq qoladigan eng kichik son?",o:["A) 39","B) 54","C) 74","D) 354"],a:2},
-{q:"n ≡ 4 (mod 7) bo'lsa, n² ≡ ? (mod 7)",o:["A) 1","B) 2","C) 3","D) 4"],a:1},
-{q:"3 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 3 qoldiq qoladigan eng kichik son?",o:["A) 5","B) 8","C) 13","D) 23"],a:1},
-{q:"a ≡ 3 (mod 5), b ≡ 4 (mod 5) bo'lsa, (a+b) mod 5 = ?",o:["A) 0","B) 1","C) 2","D) 7"],a:2},
-{q:"2024 ni 9 ga bo'lganda qoldiq (raqamlar yig'indisi usuli)?",o:["A) 6","B) 7","C) 8","D) 0"],a:3},
-]},
+t1: {
+  theory: `
+    <div class="theory-section">
+      <div class="theory-box">
+        <h3>🍬 Konfet misoli – tushuncha</h3>
+        <p>Agar sizda 17 ta konfet bo'lib, 5 ta do'stingizga teng taqsimlamoqchi bo'lsangiz:</p>
+        <ul>
+          <li>Har bir do'stingizga <b>3 tadan</b> konfet berasiz (5 · 3 = 15)</li>
+          <li>Sizda <b>2 ta</b> konfet ortib qoladi (17 − 15 = 2)</li>
+        </ul>
+        <p>Mana shu <b>ortib qolgan</b> son — <b>qoldiq</b> deyiladi!</p>
+      </div>
+      <div style="background:#f0faf6;border-radius:10px;padding:12px;text-align:center;margin:10px 0;font-size:20px;letter-spacing:2px">
+        🍬🍬🍬🍬🍬 &nbsp; 🍬🍬🍬🍬🍬 &nbsp; 🍬🍬🍬🍬🍬 &nbsp; 🍬🍬<br>
+        <span style="font-size:13px;color:#888">1-do'st &nbsp;&nbsp;&nbsp; 2-do'st &nbsp;&nbsp;&nbsp; 3-do'st &nbsp;&nbsp;&nbsp; ortib qoldi</span>
+      </div>
+    </div>
 
+    <div class="theory-section">
+      <div class="theory-box">
+        <h3>📐 Asosiy formula (eslab qol!)</h3>
+        <p>Har qanday <b>a</b> sonini <b>b</b> songa bo'lganda:</p>
+      </div>
+      <div class="formula-box">a = b · q + r &nbsp;&nbsp; (0 ≤ r < b)</div>
+      <table class="theory-table">
+        <tr><th>Belgi</th><th>Ma'nosi</th><th>Misolda</th></tr>
+        <tr><td>a</td><td>Bo'linuvchi</td><td>17</td></tr>
+        <tr><td>b</td><td>Bo'luvchi</td><td>5</td></tr>
+        <tr><td>q</td><td>Bo'linma</td><td>3</td></tr>
+        <tr><td>r</td><td>Qoldiq</td><td>2</td></tr>
+      </table>
+      <div class="warn-box">
+        <p>🔴 <b>Muhim:</b> Qoldiq <b>har doim</b> bo'luvchidan kichik bo'lishi kerak!<br>
+        <span style="font-size:13px;color:#555">Masalan: 25 ni 4 ga bo'lganda qoldiq 1 (chunki 25 = 4·6 + 1)</span></p>
+      </div>
+    </div>
+
+    <div class="theory-section">
+      <div class="theory-box">
+        <h3>🧠 Tushunish uchun savollar (og'zaki)</h3>
+        <ul>
+          <li>25 ni 4 ga bo'lganda bo'linma va qoldiq? → 25 = 4·6 + 1 → bo'linma=6, qoldiq=1</li>
+          <li>30 ni 7 ga bo'lganda? → 30 = 7·4 + 2 → bo'linma=4, qoldiq=2</li>
+          <li>Qoldiq bo'luvchidan katta bo'lishi mumkinmi? → Yo'q!</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="theory-section">
+      <div class="theory-box">
+        <h3>📖 Yozilish usuli</h3>
+        <p>"a ni b ga bo'lganda qoldiq r" deyishning qisqa usuli:</p>
+      </div>
+      <div class="formula-box">a ≡ r (mod b)</div>
+      <div class="info-box">
+        <p><b>Misol:</b> 17 ni 5 ga bo'lganda qoldiq 2 → 17 ≡ 2 (mod 5)</p>
+        <p><b>Misol:</b> 38 ni 7 ga bo'lganda qoldiq 3 → 38 ≡ 3 (mod 7)</p>
+      </div>
+    </div>
+
+    <div class="theory-section">
+      <div class="theory-box">
+        <h3>🔢 Qoldiq xossalari (muhim!)</h3>
+        <ul>
+          <li><b>Qo'shish:</b> (a + b) ni n ga bo'lgandagi qoldiq = (a qoldig'i + b qoldig'i) ni n ga bo'lgandagi qoldiq</li>
+          <li><b>Ko'paytirish:</b> (a · b) ni n ga bo'lgandagi qoldiq = (a qoldig'i · b qoldig'i) ni n ga bo'lgandagi qoldiq</li>
+          <li><b>Daraja:</b> a<sup>k</sup> ni n ga bo'lgandagi qoldiq = (a qoldig'i)<sup>k</sup> ni n ga bo'lgandagi qoldiq</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <p><b>Misol:</b> 17 ≡ 2 (mod 5), 13 ≡ 3 (mod 5)</p>
+        <p>17 + 13 = 30 ≡ 2+3 = 5 ≡ 0 (mod 5) ✓</p>
+        <p>17 · 13 = 221 ≡ 2·3 = 6 ≡ 1 (mod 5) ✓</p>
+      </div>
+    </div>
+  `,
+
+  examples: [
+    {d:1, q:"38 ni 5 ga bo'lganda bo'linma va qoldiqni toping.", s:"5 · 7 = 35, 38 − 35 = 3 → 38 = 5 · 7 + 3", a:"Bo'linma=7, qoldiq=3"},
+    {d:1, q:"100 ni 9 ga bo'lganda bo'linma va qoldiqni toping.", s:"9 · 11 = 99, 100 − 99 = 1 → 100 = 9 · 11 + 1", a:"Bo'linma=11, qoldiq=1"},
+    {d:1, q:"23 ta ruchkani 4 ta qutiga teng miqdorda soling. Har bir qutiga nechta ruchka va nechta ortib qoladi?", s:"23 = 4 · 5 + 3", a:"Har bir qutiga 5 tadan, 3 ta ruchka ortib qoladi"},
+    {d:2, q:"Qaysi sonni 7 ga bo'lganda bo'linma 8, qoldiq 3 bo'ladi?", s:"a = 7 · 8 + 3 = 56 + 3 = 59", a:"59"},
+    {d:2, q:"75 ni qanday songa bo'lganda bo'linma 9, qoldiq 3 bo'ladi?", s:"75 = b · 9 + 3 → 75 − 3 = b · 9 → 72 = b · 9 → b = 8", a:"Bo'luvchi = 8"},
+    {d:2, q:"4 ga bo'lganda 1 qoldiq, 5 ga bo'lganda 2 qoldiq qoladigan eng kichik natural sonni toping.", s:"4 ga bo'lganda 1 qoldiq: 1,5,9,13,17,21,...; 5 ga bo'lganda 2 qoldiq: 2,7,12,17,22,... → 17 = 4·4+1 = 5·3+2", a:"17"},
+    {d:3, q:"n ni 6 ga bo'lganda qoldiq 5. n² ni 6 ga bo'lganda qoldiq nechaga teng?", s:"n ≡ 5 (mod 6) → n² ≡ 5² = 25 (mod 6) → 25 = 6·4 + 1", a:"Qoldiq = 1"},
+    {d:3, q:"a ni 7 ga bo'lganda qoldiq 3, b ni 7 ga bo'lganda qoldiq 5. a·b + a + b ni 7 ga bo'lgandagi qoldiqni toping.", s:"a ≡ 3 (mod 7), b ≡ 5 (mod 7). a·b ≡ 15 ≡ 1, a+b ≡ 8 ≡ 1. a·b+a+b ≡ 1+1 = 2 (mod 7)", a:"Qoldiq = 2"},
+    {d:3, q:"⭐⭐ 3 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 3 qoldiq, 7 ga bo'lganda 4 qoldiq qoladigan eng kichik natural sonni toping.", s:"158 ni tekshiramiz: 158:3=52 qoldiq 2 ✓, 158:5=31 qoldiq 3 ✓, 158:7=22 qoldiq 4 ✓", a:"158"},
+    {d:3, q:"⭐⭐⭐ 2²⁰²⁵ + 3²⁰²⁵ sonini 5 ga bo'lgandagi qoldiqni toping.", s:"2¹=2, 2²=4, 2³=3, 2⁴=1 (davr=4). 2025 ≡ 1 (mod 4) → 2²⁰²⁵ ≡ 2 (mod 5). 3¹=3, 3²=4, 3³=2, 3⁴=1 (davr=4). 2025 ≡ 1 (mod 4) → 3²⁰²⁵ ≡ 3 (mod 5). 2+3=5 ≡ 0 (mod 5)", a:"Qoldiq = 0"}
+  ],
+
+  homework: [
+    {t:'req', q:"47 ni 6 ga bo'lganda bo'linma va qoldiqni toping."},
+    {t:'req', q:"85 ni 9 ga bo'lganda bo'linma va qoldiqni toping."},
+    {t:'req', q:"Qaysi sonni 8 ga bo'lganda bo'linma 12, qoldiq 5 bo'ladi?"},
+    {t:'req', q:"100 ni qanday songa bo'lganda bo'linma 13, qoldiq 9 bo'ladi?"},
+    {t:'req', q:"4 ga bo'lganda 3 qoldiq, 7 ga bo'lganda 5 qoldiq qoladigan eng kichik sonni toping."},
+    {t:'req', q:"n ni 5 ga bo'lganda qoldiq 4. n³ ni 5 ga bo'lganda qoldiq nechaga teng?"},
+    {t:'olp', q:"⭐⭐ 3 ga bo'lganda 1 qoldiq, 4 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 3 qoldiq qoladigan eng kichik natural sonni toping."},
+    {t:'olp', q:"⭐⭐⭐ 2²⁰²⁴ + 3²⁰²⁴ + 4²⁰²⁴ sonini 5 ga bo'lgandagi qoldiqni toping."}
+  ],
+
+  test: [
+    {q:"43 ni 6 ga bo'lganda qoldiq nechaga teng?", o:["A) 1","B) 2","C) 3","D) 4"], a:0},
+    {q:"100 ni 9 ga bo'lganda bo'linma nechaga teng?", o:["A) 9","B) 10","C) 11","D) 12"], a:2},
+    {q:"Qaysi sonni 7 ga bo'lganda bo'linma 6, qoldiq 4 bo'ladi?", o:["A) 42","B) 46","C) 48","D) 52"], a:1},
+    {q:"n ≡ 3 (mod 4) bo'lsa, n² ni 4 ga bo'lgandagi qoldiq nechaga teng?", o:["A) 0","B) 1","C) 2","D) 3"], a:1},
+    {q:"3 ga bo'lganda 2 qoldiq, 5 ga bo'lganda 4 qoldiq qoladigan eng kichik son?", o:["A) 8","B) 14","C) 19","D) 29"], a:1},
+    {q:"a ≡ 2 (mod 7), b ≡ 4 (mod 7) bo'lsa, a+b ni 7 ga bo'lgandagi qoldiq?", o:["A) 5","B) 6","C) 0","D) 1"], a:1},
+    {q:"⭐ 2024 ni 11 ga bo'lgandagi qoldiqni toping.", o:["A) 0","B) 1","C) 2","D) 3"], a:0},
+    {q:"⭐⭐ n ni 8 ga bo'lganda qoldiq 7. n² ni 8 ga bo'lganda qoldiq nechaga teng?", o:["A) 1","B) 3","C) 5","D) 7"], a:0},
+    {q:"⭐⭐ 3 ga bo'lganda 1 qoldiq, 5 ga bo'lganda 2 qoldiq, 7 ga bo'lganda 3 qoldiq qoladigan eng kichik son?", o:["A) 52","B) 67","C) 82","D) 97"], a:0},
+    {q:"⭐⭐⭐ 2¹⁰⁰ + 3¹⁰⁰ sonini 7 ga bo'lgandagi qoldiqni toping.", o:["A) 0","B) 2","C) 4","D) 6"], a:0}
+  ]
+}
 t2:{
 theory:`<div class="theory-section">
 <div class="theory-box"><h3>EKUB — Eng Katta Umumiy Bo'luvchi</h3>
